@@ -83,11 +83,17 @@ describe 'UserController' do
     end
 
     it "/profile/:slug displays a user's recipes and meal plans" do
-      get 'users/profile/test-queen'
+      user = User.find_by(username: "test queen")
+      mc = Recipe.create(name: "Mac 'n' Cheese", ingredients: "cheese, macaroni, milk, butter", instruction: "mix it together in a pot", user_id: user.id)
+      cobb = @cobb_salad = Recipe.create(name: "Cobb Salad", ingredients: "lettuce greens, eggs, chicken, dressing of choice", instruction: "mix it together in a bowl", user_id: user.id)
+      MealPlan.create(name: "Delicious Meals", lunch: mc.id, dinner: cobb.id, user_id: user.id)
 
+      get 'users/profile/test-queen'
       expect(last_response.body).to include("Welcome, test queen")
       expect(last_response.body).to include("Your Recipes")
+      expect(last_response.body).to include("Mac 'n' Cheese")
       expect(last_response.body).to include("Your Meal Plans")
+      expect(last_response.body).to include("Cobb Salad")
     end
 
     it 'only allows the current_user to access their profile' do
