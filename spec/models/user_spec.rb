@@ -3,11 +3,11 @@ require 'spec_helper'
 describe 'User' do
   before do
     @user = User.create(username: "testqueen", email: "all_hail@test.com", password: "supersecret")
-
+    @user2 = User.create(username: "the best ever", email: "awesome@me.com", password: "thebestpassword")
     @mac_n_cheese = Recipe.create(name: "Mac 'n' Cheese", ingredients: "cheese, macaroni, milk, butter", instruction: "mix it together in a pot")
     @user.recipes << @mac_n_cheese
 
-    @cobb_salad = Recipe.create(name: "Cobb Salad", ingredients: "lettuce greens, eggs, chicken, dressing of choice", instructions: "mix it together in a bowl")
+    @cobb_salad = Recipe.create(name: "Cobb Salad", ingredients: "lettuce greens, eggs, chicken, dressing of choice", instruction: "mix it together in a bowl")
     @user.recipes << @cobb_salad
 
     @oatmeal = Recipe.create(name: "Savory Oatmeal", ingredients: "oatmeal, vegetable stock, spinach, egg", instruction: "make oatmeal with vegetable stock, top with wilted spinach and a fried egg")
@@ -40,8 +40,13 @@ describe 'User' do
   end
 
   it 'can slugify its username' do
-    user2 = User.create(username: "the best ever", email: "awesome@me.com", password: "thebestpassword")
+
     expect(@user.slug).to eq("testqueen")
     expect(user2.slug).to eq("the-best-ever")
+  end
+
+  it 'can find a user by its slug' do
+
+    expect(User.find_by_slug("the-best-ever")).to eq(@user2)
   end
 end
