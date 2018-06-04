@@ -26,4 +26,20 @@ describe "Recipe Controller" do
     end
   end
 
+  context "create recipe page" do
+    before do
+      User.create(username: "test queen", email: "all_hail@test.com", password: "supersecret")
+      params = {username: "test queen", password: "supersecret"}
+      post '/login', params
+    end
+
+    it "displays a form to the user to create a recipe" do
+      get '/recipes/new'
+
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to include("Create a Recipe")
+      expect(last_response.body).to include("</form>")
+    end
+  end
+
 end
