@@ -7,7 +7,7 @@ class UserController < AppController
   post '/signup' do
     if User.find_by(username: params[:username])
       redirect '/signup'
-    end 
+    end
     user = User.create(params)
     session[:user_id] = user.id
     redirect '/recipes'
