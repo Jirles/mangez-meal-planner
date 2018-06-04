@@ -1,1 +1,5 @@
-require '../../config/environment.rb'
+require 'spec_helper'
+
+describe 'User' do
+
+end
