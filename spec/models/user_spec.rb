@@ -24,14 +24,14 @@ describe 'User' do
 
   it 'does not initialize without a username, email, or password' do
 
-    expect(User.create(username: "FAIL", email: "fail@ure.com")).to be_falsey
+    expect(User.create(username: "FAIL", email: "fail@ure.com").id).to be_nil
     expect{User.create(email: "fail@ure.com", password: "failyfail")}.to raise_error{ |error| expect(error).to be_a(ActiveRecord::StatementInvalid) }
 
     expect{User.create(username: "FAIL", password: "failyfail")}.to raise_error{ |error| expect(error).to be_a(ActiveRecord::StatementInvalid) }
   end
 
   it 'can have multiple recipes' do
-    expect(@user.recipes.size).to eq(2)
+    expect(@user.recipes.size).to eq(3)
     expect(@user.recipes).to include(@cobb_salad)
   end
 
@@ -42,7 +42,7 @@ describe 'User' do
   it 'can slugify its username' do
 
     expect(@user.slug).to eq("testqueen")
-    expect(user2.slug).to eq("the-best-ever")
+    expect(@user2.slug).to eq("the-best-ever")
   end
 
   it 'can find a user by its slug' do

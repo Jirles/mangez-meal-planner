@@ -17,12 +17,12 @@ describe 'MealPlan' do
     @user2.recipes << @oatmeal
 
     @meal_plan = MealPlan.create(name: "Rockin' Meal Plan", breakfast: @oatmeal.id, lunch: @cobb_salad.id, dinner: @mac_n_cheese.id, user_id: @user.id)
-    @meal_plan2 = MealPlan.create(breakfast: @oatmeal, dinner: @mac_n_cheese, user_id: @user2.id)
+    @meal_plan2 = MealPlan.create(breakfast: @oatmeal.id, dinner: @mac_n_cheese.id, user_id: @user2.id)
   end
 
   it 'can have instances of Recipe for breakfast, lunch, and/or dinner' do
-    expect(@meal_plan.breakfast).to be_instance_of(Recipe)
-    expect(@meal_plan2.dinner).to eq(@mac_n_cheese)
+    expect(Recipe.find(@meal_plan.breakfast)).to be_instance_of(Recipe)
+    expect(Recipe.find(@meal_plan2.dinner)).to eq(@mac_n_cheese)
   end
 
   it 'belongs to a User' do
@@ -30,9 +30,7 @@ describe 'MealPlan' do
   end
 
   it 'does not initialize without a user_id' do
-    failure = MealPlan.create(breakfast: @oatmeal, lunch: @cobb_salad, dinner: @mac_n_cheese)
-
-    expect{Recipe.create(breakfast: @oatmeal, lunch: @cobb_salad, dinner: @mac_n_cheese)}.to raise_error{ |error| expect(error).to be_a(ActiveRecord::StatementInvalid) }
+    expect{MealPlan.create(breakfast: @oatmeal.id, lunch: @cobb_salad.id, dinner: @mac_n_cheese.id)}.to raise_error{ |error| expect(error).to be_a(ActiveRecord::StatementInvalid) }
   end
 
   it 'has a default name if not specified on creation' do
