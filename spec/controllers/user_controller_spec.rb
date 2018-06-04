@@ -27,6 +27,20 @@ describe 'UserController' do
        expect(last_response.location).to include("/recipes")
      end
 
+     it 'only accepts unique usernames, i.e. not already in db' do
+       User.create(:username => "testking", :email => "long_live_the_king@test.com", :password => "testingtesting")
+
+       params = {
+         :username => "testking",
+         :email => "different_king@test.com",
+         :password => "somethingelse"
+       }
+
+       post '/signup', params
+       expect(last_response.location).to include("/signup")
+       expect(User.find_by(email: "different_king@test.com")).to be_nil
+     end
+
      it 'cannot be viewed by a user who has already signed in' do
        params = {
           :username => "testking",
