@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_04_143133) do
+ActiveRecord::Schema.define(version: 2018_06_04_155207) do
 
   create_table "meal_plans", force: :cascade do |t|
     t.string "name", default: "Your Meal Plan"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2018_06_04_143133) do
     t.string "name", null: false
     t.string "ingredients", null: false
     t.string "instruction", null: false
+    t.integer "user_id"
   end
 
   create_table "users", force: :cascade do |t|

@@ -4,16 +4,14 @@ describe 'User' do
   before do
     @user = User.create(username: "testqueen", email: "all_hail@test.com", password: "supersecret")
     @user2 = User.create(username: "the best ever", email: "awesome@me.com", password: "thebestpassword")
-    @mac_n_cheese = Recipe.create(name: "Mac 'n' Cheese", ingredients: "cheese, macaroni, milk, butter", instruction: "mix it together in a pot")
-    @user.recipes << @mac_n_cheese
 
-    @cobb_salad = Recipe.create(name: "Cobb Salad", ingredients: "lettuce greens, eggs, chicken, dressing of choice", instruction: "mix it together in a bowl")
-    @user.recipes << @cobb_salad
+    @mac_n_cheese = Recipe.create(name: "Mac 'n' Cheese", ingredients: "cheese, macaroni, milk, butter", instruction: "mix it together in a pot", user_id: @user.id)
+    @cobb_salad = Recipe.create(name: "Cobb Salad", ingredients: "lettuce greens, eggs, chicken, dressing of choice", instruction: "mix it together in a bowl", user_id: @user.id)
+    @cereal = Recipe.create(name:"Fruity Pebbles", ingredients: "fruity pebbles, milk", instruction:"pour into a bowl", user_id: @user.id)
 
-    @oatmeal = Recipe.create(name: "Savory Oatmeal", ingredients: "oatmeal, vegetable stock, spinach, egg", instruction: "make oatmeal with vegetable stock, top with wilted spinach and a fried egg")
-    @user.recipes << @oatmeal
+    @oatmeal = Recipe.create(name: "Savory Oatmeal", ingredients: "oatmeal, vegetable stock, spinach, egg", instruction: "make oatmeal with vegetable stock, top with wilted spinach and a fried egg", user_id: @user2.id)
 
-    @meal_plan = MealPlan.create(name: "Rockin' Meal Plan", breakfast: @oatmeal.id, lunch: @cobb_salad.id, dinner: @mac_n_cheese.id, user_id: @user.id)
+    @meal_plan = MealPlan.create(name: "Rockin' Meal Plan", breakfast: @cereal.id, lunch: @cobb_salad.id, dinner: @mac_n_cheese.id, user_id: @user.id)
   end
 
   it 'has a username, email, and secure password' do
