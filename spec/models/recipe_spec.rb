@@ -7,13 +7,11 @@ describe 'Recipe' do
 
     @mac_n_cheese = Recipe.create(name: "Mac 'n' Cheese", ingredients: "cheese, macaroni, milk, butter", instruction: "mix it together in a pot")
     @user.recipes << @mac_n_cheese
-    @user2.recipes << @mac_n_cheese
 
     @cobb_salad = Recipe.create(name: "Cobb Salad", ingredients: "lettuce greens, eggs, chicken, dressing of choice", instruction: "mix it together in a bowl")
     @user.recipes << @cobb_salad
 
     @oatmeal = Recipe.create(name: "Savory Oatmeal", ingredients: "oatmeal, vegetable stock, spinach, egg", instruction: "make oatmeal with vegetable stock, top with wilted spinach and a fried egg")
-    @user.recipes << @oatmeal
     @user2.recipes << @oatmeal
 
   end
@@ -32,8 +30,8 @@ describe 'Recipe' do
     expect{Recipe.create(name: "yummy", ingredients: "chocoloate, flour, love")}.to raise_error{ |error| expect(error).to be_a(ActiveRecord::StatementInvalid) }
   end
 
-  it 'can belong to many users' do
-    expect(@mac_n_cheese.users.size).to eq(2)
-    expect(@oatmeal.users).to include(@user2)
+  it ' belong to a user' do
+    expect(@mac_n_cheese.user).to eq(@user)
+    expect(@oatmeal.user).to eq(@user2)
   end
 end

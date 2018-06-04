@@ -13,7 +13,6 @@ describe 'MealPlan' do
     @user.recipes << @cobb_salad
 
     @oatmeal = Recipe.create(name: "Savory Oatmeal", ingredients: "oatmeal, vegetable stock, spinach, egg", instruction: "make oatmeal with vegetable stock, top with wilted spinach and a fried egg")
-    @user.recipes << @oatmeal
     @user2.recipes << @oatmeal
 
     @meal_plan = MealPlan.create(name: "Rockin' Meal Plan", breakfast: @oatmeal.id, lunch: @cobb_salad.id, dinner: @mac_n_cheese.id, user_id: @user.id)

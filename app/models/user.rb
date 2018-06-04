@@ -1,7 +1,6 @@
 class User < ActiveRecord::Base
   has_many :meal_plans
-  has_many :user_recipes
-  has_many :recipes, through: :user_recipes
+  has_many :recipes
   has_secure_password
 
   def self.find_by_slug(slug)
