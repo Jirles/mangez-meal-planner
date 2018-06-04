@@ -14,7 +14,7 @@
 <ul>
   <% @user.meal_plans.each do |mp| %>
     <li>
-      <a href="/shopping-list/<%= mp.id %>"><%= mp.name %></a>
+      <a href="/meal-plans/<%= mp.id %>"><%= mp.name %></a>
     </li>
     <br>
   <% end %>
