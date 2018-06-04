@@ -66,6 +66,49 @@ describe 'UserController' do
     end
   end
 
+  describe 'user profiles paths' do
+    before do
+      params = {
+         :username => "test queen",
+         :email => "all_hail@test.com",
+         :password => "testytest"
+       }
+       post '/signup', params
+    end
+
+    it 'directs a user to their individual profile page when they link to users/profile' do
+      get 'users/profile'
+
+      expect(last_response.location).to include("/profile/test-queen")
+    end
+
+    it "/profile/:slug displays a user's recipes and meal plans" do
+      get 'users/profile/test-queen'
+
+      expect(last_response.body).to include("Welcome, test queen")
+      expect(last_response.body).to include("Your Recipes")
+      expect(last_response.body).to include("Your Meal Plans")
+    end
+
+    it 'only allows the current_user to access their profile' do
+      get 'logout'
+      params = {:username => "testking", :email => "long_live_the_king@test.com", :password => "testingtesting"}
+      post '/signup', params
+
+      get '/users/profile'
+      expect(last_response.location).to include("/profile/testking")
+      get '/users/profile/test-queen'
+      expect(last_response.location).to include("/recipes")
+    end
+
+    it 'cannot be accessed when a user is logged out' do
+      get 'logout'
+
+      get '/users/profile/test-queen'
+      expect(last_response.location).to include('/login')
+    end
+  end
+
   context 'logout action' do
     it 'logs a person out of the app' do
       params = { :username => "testking", :password => "testingtesting"}

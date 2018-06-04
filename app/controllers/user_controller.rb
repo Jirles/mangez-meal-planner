@@ -21,7 +21,20 @@ class UserController < AppController
       redirect '/recipes'
     else
       redirect '/login'
-    end  
+    end
+  end
+
+  get '/users/profile' do
+    redirect_if_not_logged_in
+    redirect "/users/profile/#{current_user.slug}"
+  end
+
+  get '/users/profile/:slug' do
+    redirect_if_not_logged_in
+    redirect '/recipes' if current_user.slug != params[:slug]
+
+    @user = User.find_by_slug(params[:slug])
+    erb :'/users/show'
   end
 
   get '/logout' do
