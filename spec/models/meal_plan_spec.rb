@@ -16,7 +16,7 @@ describe 'MealPlan' do
     @user.recipes << @oatmeal
     @user2.recipes << @oatmeal
 
-    @meal_plan = MealPlan.create(breakfast: @oatmeal, lunch: @cobb_salad, dinner: @mac_n_cheese, user_id: @user.id)
+    @meal_plan = MealPlan.create(name: "Rockin' Meal Plan", breakfast: @oatmeal.id, lunch: @cobb_salad.id, dinner: @mac_n_cheese.id, user_id: @user.id)
     @meal_plan2 = MealPlan.create(breakfast: @oatmeal, dinner: @mac_n_cheese, user_id: @user2.id)
   end
 
@@ -33,6 +33,10 @@ describe 'MealPlan' do
     failure = MealPlan.create(breakfast: @oatmeal, lunch: @cobb_salad, dinner: @mac_n_cheese)
 
     expect{Recipe.create(breakfast: @oatmeal, lunch: @cobb_salad, dinner: @mac_n_cheese)}.to raise_error{ |error| expect(error).to be_a(ActiveRecord::StatementInvalid) }
+  end
+
+  it 'has a default name if not specified on creation' do
+    expect(@meal_plan2.name).to eq("Your Meal Plan")
   end
 
 end

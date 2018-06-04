@@ -13,7 +13,7 @@ describe 'User' do
     @oatmeal = Recipe.create(name: "Savory Oatmeal", ingredients: "oatmeal, vegetable stock, spinach, egg", instruction: "make oatmeal with vegetable stock, top with wilted spinach and a fried egg")
     @user.recipes << @oatmeal
 
-    @meal_plan = MealPlan.create(breakfast: @oatmeal, lunch: @cobb_salad, dinner: @mac_n_cheese, user_id: @user.id)
+    @meal_plan = MealPlan.create(name: "Rockin' Meal Plan", breakfast: @oatmeal.id, lunch: @cobb_salad.id, dinner: @mac_n_cheese.id, user_id: @user.id)
   end
 
   it 'has a username, email, and secure password' do
