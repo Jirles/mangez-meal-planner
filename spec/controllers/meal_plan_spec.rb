@@ -35,11 +35,20 @@ describe "Meal Plan Controller" do
         :user_id => @user.id
       }
       post '/meal-plans', params
+
       expect(last_response.status).to eq(302)
       follow_redirect!
       expect(last_response.body).to include("Your Meal Plans")
       expect(last_response.body).to include("Noice Meal Plan")
       expect(MealPlan.last.name).to eq("Noice Meal Plan")
     end
+
+    it "does not a user access the page unless they are logged in" do
+      get '/logout'
+
+      get '/meal-plans/new'
+      expect(last_response.location).to include("/login")
+    end
+
   end
 end
