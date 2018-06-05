@@ -50,5 +50,21 @@ describe "Meal Plan Controller" do
       expect(last_response.location).to include("/login")
     end
 
+    it "saves a meal plan with the defaul setting if a name is not supplied" do
+      params = {
+        :breakfast => @cereal.id,
+        :lunch => @mac_n_cheese.id,
+        :dinner => @cobb_salad.id,
+        :user_id => @user.id
+      }
+      post '/meal-plans', params
+
+      expect(last_response.status).to eq(302)
+      follow_redirect!
+
+      expect(last_response.body).to include("Your Meal Plan")
+      expect(MealPlan.last.name).to eq("Your Meal Plan")
+    end
+
   end
 end

@@ -2,9 +2,7 @@
 
 <form action="/meal-plans" method="post">
   <h4>Meal Plan Name</h4>
-  <input type="text" id="mp_name" name="name" />
-  <br>
-  <label for="ingredients" id="mp-name-instruction">Optional, but recommended</label>
+  <input type="text" id="mp_name" name="name" value="Your Meal Plan" required/>
   <h4>Breakfast</h4>
     <% @user.recipes.each do |recipe| %>
       <input type="radio" name="breakfast" value="<%= recipe.id %>"><%=recipe.name%><br>
