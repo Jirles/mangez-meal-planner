@@ -42,9 +42,9 @@ describe "Recipe Controller" do
     end
 
     it "contains a form with fields for name, ingredients, and instruction" do
-      expect(last_response.body).to include("Name:")
-      expect(last_response.body).to include("Ingredients:")
-      expect(last_response.body).to include("Cooking Instructions:")
+      expect(last_response.body).to include("Name")
+      expect(last_response.body).to include("Ingredients")
+      expect(last_response.body).to include("Cooking Instructions")
       #fill_in(:recipe_name, :with => "Pizza")
       #fill_in(:ingredients, :with => "dough, cheese, marinara sauce, pepperoni")
       #fill_in(:instruction, :with => "put cheese, marinara sauce, and pepperoni on dough and bake")

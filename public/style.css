@@ -4,6 +4,12 @@ button {
   background: #ddd;
 }
 
+/* input styling */
+input {
+  margin: 0 0 20px;
+  display: block;
+}
+
 /* navbar styling */
 #navbar ul {
   list-style-type: none;
@@ -48,4 +54,5 @@ footer h5 {
 #ingredient-instruction {
   color: #4d4e4f;
   font-size: 0.85em;
+  display: block;
 }

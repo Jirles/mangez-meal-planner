@@ -1,23 +1,19 @@
 <h1>Create a Recipe</h1>
 
 <form action="/recipes" method="post">
-  <p>
-    <label for="recipe_name">Name: </label>
-    <input type="text" id="recipe_name" name="recipe_name" required />
-    <abbr title="required">*</abbr>
-  </p>
-  <p>
-    <label for="ingredients">Ingredients: </label>
-    <input type="text" id="ingredients" name="ingredients" required />
-    <abbr title="required">*</abbr>
-    <br>
-    <label for="ingredients" id="ingredient-instruction">Please enter your ingredients separated by commas, e.g. "cereal, milk"</label>
-  </p>
-  <p>
-    <label for="instruction">Cooking Instructions: </label>
-    <input type="text" id="instruction" name="instruction" required />
-    <abbr title="required">*</abbr>
-  </p>
-  <br></br>
+
+  <label for="recipe_name">Name</label>
+  <abbr title="required">*</abbr>
+  <input type="text" id="recipe_name" name="recipe_name" required />
+
+  <label for="ingredients">Ingredients</label>
+  <abbr title="required">*</abbr>
+  <label for="ingredients" id="ingredient-instruction">Please enter your ingredients separated by commas, e.g. "cereal, milk"</label>
+  <input type="text" id="ingredients" name="ingredients" required />
+
+  <label for="instruction">Cooking Instructions</label>
+  <abbr title="required">*</abbr>
+  <input type="text" id="instruction" name="instruction" required />
+
   <button type="submit">Create</button>
 </form>
