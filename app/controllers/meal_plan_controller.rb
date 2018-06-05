@@ -15,9 +15,10 @@ class MealPlanController < AppController
   end
 
   post '/meal-plans' do
-    params[:user_id] = current_user.id
-    MealPlan.create(params)
+    "#{params}"
+    #params[:user_id] = current_user.id
+    #MealPlan.create(params)
 
-    redirect "/users/profile/#{current_user.slug}"
+    #redirect "/users/profile/#{current_user.slug}"
   end
 end
