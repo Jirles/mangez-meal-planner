@@ -11,7 +11,6 @@ class RecipeController < AppController
 
   get '/recipes/new' do
     redirect_if_not_logged_in
-    @user = current_user
 
     erb :'recipes/create_recipe'
   end

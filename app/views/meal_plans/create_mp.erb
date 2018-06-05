@@ -1,0 +1,26 @@
+<h1>Create a Meal Plan</h1>
+
+<form action="/meal-plans" method="post">
+  <h4>Meal Plan Name</h4>
+  <input type="text" id="mp_name" name="name" />
+  <br>
+  <label for="ingredients" id="mp-name-instruction">Optional, but recommended</label>
+  <h4>Breakfast</h4>
+    <% @user.recipes.each do |recipe| %>
+      <input type="radio" name="breakfast" value="<%= recipe.id %>"><%=recipe.name%><br>
+    <% end %>
+    <input type="radio" name="breakfast" value="nil">None
+  <h4>Lunch</h4>
+    <% @user.recipes.each do |recipe| %>
+      <input type="radio" name="lunch" value="<%= recipe.id %>"><%=recipe.name%><br>
+    <% end %>
+    <input type="radio" name="lunch" value="nil">None
+  <h4>Dinner</h4>
+    <% @user.recipes.each do |recipe| %>
+      <input type="radio" name="dinner" value="<%= recipe.id %>"><%=recipe.name%><br>
+    <% end %>
+    <input type="radio" name="dinner" value="nil">None
+
+  <br></br>
+  <button type="submit">Create</button>
+</form>
