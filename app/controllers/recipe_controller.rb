@@ -38,6 +38,12 @@ class RecipeController < AppController
   end
 
   patch '/recipes/:id' do
-    "#{params}"
+    recipe = Recipe.find(params[:id])
+    recipe.name = params[:name]
+    recipe.ingredients = params[:ingredients]
+    recipe.instruction = params[:instruction]
+    recipe.save
+
+    redirect "/recipes/#{recipe.id}"
   end
 end

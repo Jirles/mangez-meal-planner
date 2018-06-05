@@ -125,11 +125,25 @@ describe "Recipe Controller" do
       expect(last_response.body).to include('value="peanut butter, jelly, bread"')
     end
 
-    it 'can be accessed from the Edit button on the view recipe page' do
-      get "/recipes/#{@recipe.id}"
-      expect(last_response.status).to eq(200)
-      click_button "edit"
-      expect(page.body).to include("Edit #{@recipe.name}")
+    it 'allows a user to edit a recipe and save changes and takes them to the view recipe page' do
+      params = {
+        :name => "PB&J",
+        :ingredients => "peanut butter, jelly, bread",
+        :instruction => "spread peanut butter and jelly on bread. cut in half. enjoy."
+      }
+      patch "/recipes/#{@recipe.id}", params
+      follow_redirect!
+      expect(last_response.body).to include("PB&J")
+      expect(last_response.body).to include("spread peanut butter and jelly on bread. cut in half. enjoy.")
+    end
+
+    it 'does not allow a user to view the page if they are not logged in' do
+      get '/logout'
+
+      get "/recipes/#{@recipe.id}/edit"
+      expect(last_response.status).to eq(302)
+      follow_redirect!
+      expect(last_response.body).to include("Welcome back")
     end
   end
 
