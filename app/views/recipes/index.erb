@@ -1,6 +1,7 @@
 <h1>Welcome, <%=@user.username%> </h1>
 
 <h3>Recipes</h3>
+
 <ul>
   <% Recipe.all.each do |recipe| %>
     <li>
@@ -9,3 +10,5 @@
     <br>
   <% end %>
 </ul>
+<p>Don't see anything you like?</p>
+<a href="/recipes/new"><button type="button">Create New Recipe</button></a>
