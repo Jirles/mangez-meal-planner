@@ -108,5 +108,28 @@ describe "Recipe Controller" do
     end
   end
 
+  context "edit recipe page" do
+    before do
+      @user = User.create(:username => "testking", :email => "long_live_the_king@test.com", :password => "testingtesting")
+      @recipe = Recipe.create(:name => "PB&J", :ingredients => "peanut butter, jelly, bread", :instruction => "spread peanut butter and jelly on bread", :user_id => @user.id)
+      params = {:username => "testking", :password => "testingtesting"}
+
+      post '/login', params
+    end
+
+    it 'contains a pre-filled form with recipe information' do
+      get "/recipes/#{@recipe.id}/edit"
+
+      expect(last_response.body).to include("</form>")
+      expect(last_response.body).to include("value='<%=@recipe.name%>'")
+    end
+
+    it 'can be accessed from the Edit button on the view recipe page' do
+      get "/recipes/#{@recipe.id}"
+      click_link "<button>Edit</button>"
+      
+      expect(page.body).to include("Edit #{@recipe.name}")
+    end
+  end
 
 end
