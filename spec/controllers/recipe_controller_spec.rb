@@ -169,11 +169,22 @@ describe "Recipe Controller" do
     end
     it "deletes a recipe" do
       delete "/recipes/#{@recipe.id}/delete"
-      
+
       expect(last_response.status).to eq(302)
       follow_redirect!
-      expect(last_response.location).to include('/recipes')
+      expect(last_response.body).to include("Welcome, test queen")
       expect(last_response.body).not_to include("PB&J")
+      expect{Recipe.find(@recipe.id)}.to raise_error{ |error| expect(error).to be_a(ActiveRecord::RecordNotFound) }
+    end
+
+    it 'does not allow a user to delete a recipe if they are not logged in' do
+      get '/logout'
+
+      delete "/recipes/#{@recipe.id}/delete"
+
+      expect(last_response.status).to eq(302)
+      follow_redirect!
+      expect(last_response.body).to include("Welcome back")
     end
   end
 
