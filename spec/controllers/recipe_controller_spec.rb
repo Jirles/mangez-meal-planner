@@ -186,6 +186,10 @@ describe "Recipe Controller" do
       follow_redirect!
       expect(last_response.body).to include("Welcome back")
     end
+
+    it 'does not allow a user to delete a recipe to which they do not have owner permissions' do
+      
+    end
   end
 
 end
