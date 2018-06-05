@@ -33,6 +33,7 @@ class RecipeController < AppController
   end
 
   post '/recipes' do
+    params[:user_id] = current_user.id
     Recipe.create(params)
     redirect '/recipes'
   end

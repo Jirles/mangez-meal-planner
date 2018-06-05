@@ -2,7 +2,7 @@
 
 <form action="/recipes" method="post">
   <p>
-    <input type="text" id="name" name="name" placeholder="Name" required />
+    <input type="text" id="recipe_name" name="name" placeholder="Name" required />
   </p>
   <p>
     Please enter your ingredients separated by commas, e.g. "cereal, milk"
@@ -12,7 +12,6 @@
   <p>
     <input type="text" id="instruction" name="instruction" placeholder="Instructions" required />
   </p>
-  <input type="hidden" id="user_id" name="user_id" value="<%= @user.id %>" >
-  <br><br>
+  <br></br>
   <button type="submit">Create</button>
 </form>
