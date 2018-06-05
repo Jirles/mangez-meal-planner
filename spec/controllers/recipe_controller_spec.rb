@@ -121,13 +121,14 @@ describe "Recipe Controller" do
       get "/recipes/#{@recipe.id}/edit"
 
       expect(last_response.body).to include("</form>")
-      expect(last_response.body).to include("value='<%=@recipe.name%>'")
+      expect(last_response.body).to include('value="PB&J"')
+      expect(last_response.body).to include('value="peanut butter, jelly, bread"')
     end
 
     it 'can be accessed from the Edit button on the view recipe page' do
       get "/recipes/#{@recipe.id}"
-      click_link "<button>Edit</button>"
-      
+      expect(last_response.status).to eq(200)
+      click_button "edit"
       expect(page.body).to include("Edit #{@recipe.name}")
     end
   end

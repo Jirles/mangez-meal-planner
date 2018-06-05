@@ -12,6 +12,7 @@ gem 'shotgun'
 gem 'pry'
 gem 'tux'
 gem 'rack-flash3'
+gem 'launchy', '~> 2.4', '>= 2.4.3'
 
 group :test do
   gem 'rspec'

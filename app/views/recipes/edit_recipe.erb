@@ -1,0 +1,27 @@
+<h1>Edit <%=@recipe.name%></h1>
+
+<h3>Edit below, then press Save to save your changes</h3>
+
+<form action="/recipes/<%=@recipe.id%>" method="post">
+  <input type="hidden" class="hidden" name="_method" value="patch" />
+  <p>
+    <label for="name">Name: </label>
+    <input type="text" id="name" name="name" value="<%=@recipe.name%>" required />
+    <abbr title="required">*</abbr>
+  </p>
+  <p>
+
+
+    <label for="ingredients">Ingredients: </label>
+    <input type="text" id="ingredients" name="ingredients" value="<%=@recipe.ingredients%>" required />
+    <abbr title="required">*</abbr>
+    Please enter your ingredients separated by commas, e.g. "cereal, milk"
+  </p>
+  <p>
+    <label for="instruction">Cooking Instructions: </label>
+    <input type="text" id="instruction" name="instruction" value="<%=@recipe.instruction%>" required />
+    <abbr title="required">*</abbr>
+  </p>
+  <br><br>
+  <button type="submit">Save</button>
+</form>

@@ -11,7 +11,12 @@
 <p><%=@recipe.instruction%></p>
 
 <% if @user == @recipe.user %>
-  <a href="/recipes/<%=@recipe.id%>/edit"><button>Edit</button></a>
-  <br><br>
-  <a href="/recipes/<%=@recipe.id%>/delete"><button>Delete</button></a>
+  <form action="/recipes/<%=@recipe.id%>/edit" method="get">
+    <button type="submit" id="edit">Edit</button>
+  </form>
+  <br>
+  <form action="/recipes/<%=@recipe.id%>/delete" method="post">
+    <input type="hidden" id="hidden"  name="_method" value="delete"/>
+    <button type="submit">Delete</button>
+  </form>
 <% end %>
