@@ -90,6 +90,22 @@ describe "Recipe Controller" do
       follow_redirect!
       expect(last_response.body).to include("Welcome back")
     end
+
+    it 'shows the edit and delete options if a user has owner permissions' do
+      get "/recipes/#{@recipe.id}"
+      expect(last_response.body).to include('</button>')
+    end
+
+    it 'does not show edit and delete buttons if a user does not have owner permissions' do
+      User.create(:username => "testking", :email => "long_live_the_king@test.com", :password => "testingtesting")
+      params = {:username => "testking", :password => "testingtesting"}
+      get '/logout'
+
+      post '/login', params
+      get "/recipes/#{@recipe.id}"
+
+      expect(last_response.body).not_to include("</button>")
+    end
   end
 
 
