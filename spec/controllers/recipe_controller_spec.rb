@@ -167,6 +167,7 @@ describe "Recipe Controller" do
       params = {:username => "test queen", :password => "supersecret"}
       post '/login', params
     end
+
     it "deletes a recipe" do
       delete "/recipes/#{@recipe.id}/delete"
 
@@ -188,8 +189,18 @@ describe "Recipe Controller" do
     end
 
     it 'does not allow a user to delete a recipe to which they do not have owner permissions' do
-      
+      get '/logout'
+      @user = User.create(:username => "testking", :email => "long_live_the_king@test.com", :password => "testingtesting")
+      params = {:username => "testking", :password => "testingtesting"}
+
+      post '/login', params
+      delete "/recipes/#{@recipe.id}/delete"
+      expect(last_response.status).to eq(302)
+      follow_redirect!
+      expect(last_response.body).to include("Welcome, testking")
+      expect(last_response.body).to include("PB&J")
     end
+
   end
 
 end
