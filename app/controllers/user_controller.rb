@@ -5,12 +5,13 @@ class UserController < AppController
   end
 
   post '/signup' do
-    if User.find_by(username: params[:username])
+    user = User.create(params)
+    if user.id #=> will be nil if the object could not be saved to db
+      session[:user_id] = user.id
+      redirect '/recipes'
+    else
       redirect '/signup'
     end
-    user = User.create(params)
-    session[:user_id] = user.id
-    redirect '/recipes'
   end
 
   get '/login' do
