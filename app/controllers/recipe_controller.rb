@@ -1,3 +1,5 @@
+require 'pry'
+
 class RecipeController < AppController
 
   get '/recipes' do
@@ -15,6 +17,7 @@ class RecipeController < AppController
   end
 
   post '/recipes' do
-    "#{params}"
+    Recipe.create(params)
+    redirect '/recipes'
   end
 end
