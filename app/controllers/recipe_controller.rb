@@ -18,6 +18,7 @@ class RecipeController < AppController
 
   get '/recipes/:id' do
     redirect_if_not_logged_in
+    @user = current_user
     @recipe = Recipe.find(params[:id])
 
     erb :'/recipes/show_recipe'

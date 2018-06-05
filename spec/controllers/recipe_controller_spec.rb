@@ -69,11 +69,11 @@ describe "Recipe Controller" do
     before do
       @user = User.create(username: "test queen", email: "all_hail@test.com", password: "supersecret")
       @recipe = Recipe.create(:name => "PB&J", :ingredients => "peanut butter, jelly, bread", :instruction => "spread peanut butter and jelly on bread", :user_id => @user.id)
+      params = {username: "test queen", password: "supersecret"}
+      post '/login', params
     end
 
     it "shows an individual recipe and its details" do
-      params = {username: "test queen", password: "supersecret"}
-      post '/login', params
       get "/recipes/#{@recipe.id}"
 
       expect(last_response.status).to eq(200)

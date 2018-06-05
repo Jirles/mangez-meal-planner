@@ -9,3 +9,9 @@
 
 <h3>Cooking Instructions</h3>
 <p><%=@recipe.instruction%></p>
+
+<% if @user == @recipe.user %>
+  <a href="/recipes/<%=@recipe.id%>/edit"><button>Edit</button></a>
+  <br><br>
+  <a href="/recipes/<%=@recipe.id%>/delete"><button>Delete</button></a>
+<% end %>
