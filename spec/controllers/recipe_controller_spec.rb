@@ -32,22 +32,22 @@ describe "Recipe Controller" do
       @user = User.create(username: "test queen", email: "all_hail@test.com", password: "supersecret")
       params = {username: "test queen", password: "supersecret"}
       post '/login', params
+      get '/recipes/new'
     end
 
     it "displays a form to the user to create a recipe" do
-      get '/recipes/new'
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include("Create a Recipe")
       expect(last_response.body).to include("</form>")
     end
 
-    xit "contains a form with fields for name, ingredients, and instruction" do
-
-      get '/recipes/new'
-
-      fill_in(:recipe_name, :with => "Pizza")
-      fill_in(:ingredients, :with => "dough, cheese, marinara sauce, pepperoni")
-      fill_in(:instruction, :with => "put cheese, marinara sauce, and pepperoni on dough and bake")
+    it "contains a form with fields for name, ingredients, and instruction" do
+      expect(last_response.body).to include("Name:")
+      expect(last_response.body).to include("Ingredients:")
+      expect(last_response.body).to include("Cooking Instructions:")
+      #fill_in(:recipe_name, :with => "Pizza")
+      #fill_in(:ingredients, :with => "dough, cheese, marinara sauce, pepperoni")
+      #fill_in(:instruction, :with => "put cheese, marinara sauce, and pepperoni on dough and bake")
     end
 
     it 'creates a new instance of a recipe then redirects a user to the recipe index' do
