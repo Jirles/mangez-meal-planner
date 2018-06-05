@@ -26,5 +26,20 @@ describe "Meal Plan Controller" do
       expect(last_response.body).to include("Mac 'n' Cheese")
       expect(last_response.body).to include("Cobb Salad")
     end
+    it 'creates a new instance of a meal plan then redirects a user to their profile' do
+      params = {
+        :name => "Noice Meal Plan",
+        :breakfast => @cereal.id,
+        :lunch => @mac_n_cheese.id,
+        :dinner => @cobb_salad.id,
+        :user_id => @user.id
+      }
+      post '/meal-plans', params
+      expect(last_response.status).to eq(302)
+      follow_redirect!
+      expect(last_response.body).to include("Your Meal Plans")
+      expect(last_response.body).to include("Noice Meal Plan")
+      expect(MealPlan.last.name).to eq("Noice Meal Plan")
+    end
   end
 end

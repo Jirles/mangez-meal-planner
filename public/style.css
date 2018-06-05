@@ -44,8 +44,8 @@ footer h5 {
   color: #4d4e4f;
 }
 
-/* ingredient-instruction styling */
-#ingredient-instruction {
+/* ingredient- / mp-name-instruction styling */
+#ingredient-instruction, #mp-name-instruction {
   color: #4d4e4f;
   font-size: 0.85em;
 }
