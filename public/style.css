@@ -43,3 +43,9 @@ footer h5 {
   text-align: right;
   color: #4d4e4f;
 }
+
+/* ingredient-instruction styling */
+#ingredient-instruction {
+  color: #4d4e4f;
+  font-size: 0.85em;
+}
