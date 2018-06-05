@@ -26,8 +26,7 @@ class RecipeController < AppController
 
   get '/recipes/:id/edit' do
     @recipe = Recipe.find(params[:id])
-    redirect_if_not_logged_in
-    redirect '/recipes' if @recipe.user_id != current_user.id
+    owner_permissions_check(@recipe)
 
     erb :'recipes/edit_recipe'
   end
@@ -47,4 +46,15 @@ class RecipeController < AppController
 
     redirect "/recipes/#{recipe.id}"
   end
+
+  delete '/recipes/:id/delete' do
+    @recipe = Recipe.find(params[:id])
+    owner_permissions_check(@recipe)
+
+    @recipe.destroy
+
+    redirect '/recipes'
+  end
+
+
 end

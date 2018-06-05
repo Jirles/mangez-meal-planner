@@ -23,6 +23,11 @@ class AppController < Sinatra::Base
     def current_user
       User.find(session[:user_id])
     end
+
+    def owner_permissions_check(obj)
+      redirect_if_not_logged_in
+      redirect '/recipes' if obj.user_id != current_user.id
+    end
   end
 
 end

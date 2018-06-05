@@ -1,0 +1,45 @@
+
+/* button styling */
+button {
+  background: #ddd;
+}
+
+/* navbar styling */
+#navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#navbar ul li {
+  float: left;
+  background: #ddd;
+  border: 1px solid black;
+}
+
+#navbar ul li a {
+  display: inline-block;
+  padding: 8px;
+  color: black;
+  text-decoration: none;
+}
+
+#navbar li a:hover {
+  background-color: #111;
+  color: white;
+}
+
+.clearfix:after {
+  content: '.';
+  display: block;
+  clear: both;
+  visibility: hidden;
+  height: 0;
+  line-height: 0;
+}
+
+/* footer styling */
+footer h5 {
+  text-align: right;
+  color: #4d4e4f;
+}

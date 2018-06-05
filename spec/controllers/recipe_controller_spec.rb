@@ -160,4 +160,21 @@ describe "Recipe Controller" do
     end
   end
 
+  context "delete recipe action" do
+    before do
+      @user = User.create(:username => "test queen", :email => "all_hail@test.com", :password => "supersecret")
+      @recipe = Recipe.create(:name => "PB&J", :ingredients => "peanut butter, jelly, bread", :instruction => "spread peanut butter and jelly on bread", :user_id => @user.id)
+      params = {:username => "test queen", :password => "supersecret"}
+      post '/login', params
+    end
+    it "deletes a recipe" do
+      delete "/recipes/#{@recipe.id}/delete"
+      
+      expect(last_response.status).to eq(302)
+      follow_redirect!
+      expect(last_response.location).to include('/recipes')
+      expect(last_response.body).not_to include("PB&J")
+    end
+  end
+
 end
