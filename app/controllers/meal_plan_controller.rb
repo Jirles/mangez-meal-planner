@@ -16,8 +16,17 @@ class MealPlanController < AppController
 
   post '/meal-plans' do
     "#{params}"
-    #params[:user_id] = current_user.id
-    #MealPlan.create(params)
+    #mp = MealPlan.new(name: params[:name], user_id: current_user.id)
+    #if params[:breakfast]
+      #mp.breafast = params[:breakfast]
+    #else
+      # redirect '/meal-plans/new' if params[:breakfast_new].values.any?{|v| v.empty?}
+      #params[:breakfast_new][:user_id] = current_user.id
+      #breakfast = Recipe.create(params[:breakfast_new])
+      #mp.breakfast = breakfast.id
+
+    #same for lunch_new and dinner_new
+    #mp.save 
 
     #redirect "/users/profile/#{current_user.slug}"
   end
