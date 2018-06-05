@@ -16,6 +16,12 @@ class RecipeController < AppController
     erb :'recipes/create_recipe'
   end
 
+  get '/recipes/:id' do
+    @recipe = Recipe.find(params[:id])
+
+    erb :'/recipes/show_recipe'
+  end
+
   post '/recipes' do
     Recipe.create(params)
     redirect '/recipes'

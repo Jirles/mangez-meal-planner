@@ -63,7 +63,29 @@ describe "Recipe Controller" do
       expect(last_response.body).to include("Welcome, ")
       expect(Recipe.last.name).to eq("PB&J")
     end
+  end
 
+  context "view recipe page" do
+    before do
+      @user = User.create(username: "test queen", email: "all_hail@test.com", password: "supersecret")
+      @recipe = Recipe.create(:name => "PB&J", :ingredients => "peanut butter, jelly, bread", :instruction => "spread peanut butter and jelly on bread", :user_id => @user.id)
+
+      params = {username: "test queen", password: "supersecret"}
+      post '/login', params
+    end
+
+    it "shows an individual recipe and its details" do
+      visit "/recipes/#{@recipe.id}"
+
+      expect(page.status_code).to eq(200)
+      expect(page.body).to include("PB&J")
+      expect(page.body).to include("bread")
+      expect(page.body).to include("spread peanut butter")
+    end
+
+    it "does not let a user visit unless they are logged in" do
+
+    end 
   end
 
 
