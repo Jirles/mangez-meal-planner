@@ -1,6 +1,10 @@
 <h1>Welcome, <%=@user.username%> </h1>
 
 <h3>Your Recipes</h3>
+<% if @user.recipes.count < 1 %>
+  <p>Uh oh, looks like you don't have any recipes yet. Let's fix that.</p>
+  <a href="/recipes/new"><button type="button">Create New Recipe</button></a>
+<% end %>
 <ul>
   <% @user.recipes.each do |recipe| %>
     <li>
@@ -11,6 +15,10 @@
 </ul>
 
 <h3>Your Meal Plans</h3>
+<% if @user.meal_plans.count < 1 %>
+  <p>Uh oh, looks like you don't have any meal plans yet. Let's fix that.</p>
+  <a href="/meal-plans/new"><button type="button">Create New Meal Plan</button></a>
+<% end %>
 <ul>
   <% @user.meal_plans.each do |mp| %>
     <li>
