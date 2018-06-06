@@ -13,6 +13,7 @@ describe "Meal Plan Controller" do
   end
 
   context "create meal plan page" do
+
     it "displays a form to the user to create a meal plan" do
       visit "/users/profile/#{@user.slug}"
       click_link "Create New Meal Plan"
@@ -113,43 +114,35 @@ describe "Meal Plan Controller" do
 
   context "view meal plan page" do
     before do
-      @noice_mp = MealPlan.create({
-        :name => "Noice Meal Plan",
-        :breakfast => @cereal.id,
-        :lunch => @mac_n_cheese.id,
-        :dinner => @cobb_salad.id,
-        :user_id => @user.id
-      })
+      @noice_mp = MealPlan.create(:name => "Noice Meal Plan", :breakfast => @cereal.id, :lunch => @cobb_salad.id, :dinner => @mac_n_cheese.id, :user_id => @user.id)
     end
 
-    xit "shows an individual recipe and its details" do
-      get "/meal-plans/#{@noice_mp.id}"
+    it "shows a meal plan, its recipes as links" do
+      visit "/meal-plans/#{@noice_mp.id}"
 
-      expect(last_response.status).to eq(200)
-      expect(last_response.body).to include("Noice Meal Plan")
-      expect(last_response.body).to have_link("Fruity Pebbles")
+      expect(page.status_code).to eq(200)
+      expect(page.body).to include("Noice Meal Plan")
+      expect(page).to have_link("Fruity Pebbles")
     end
 
-    xit "does not let a user visit unless they are logged in" do
-      get '/logout'
+    it "does not let a user visit unless they are logged in" do
+      visit '/logout'
 
-      get "/recipes/#{@noice_mp.id}"
-      expect(last_response.status).to eq(302)
-      follow_redirect!
-      expect(last_response.body).to include("Welcome back")
+      visit "/recipes/#{@noice_mp.id}"
+      expect(page.current_url).to include("/login")
     end
 
-    xit "does not let a user visit unless they have owner permissions" do
-      get '/logout'
+    it "does not let a user visit unless they have owner permissions" do
+      visit '/logout'
       User.create(:username => "testking", :email => "long_live_the_king@test.com", :password => "testingtesting")
-      params = {:username => "testking", :password => "testingtesting"}
-      post '/login', params
+      visit '/login'
+      fill_in(:username, :with => "testking")
+      fill_in(:password, :with => "testingtesting")
+      click_button "Log In"
+      visit "/meal-plans/#{@noice_mp.id}"
 
-      get "/recipes/#{@noice_mp.id}"
-      expect(last_response.status).to eq(302)
-      follow_redirect!
-      expect(last_response.body).to include("Welcome, testking")
-      expect(last_response.location).to include("/profile/testking")
+      expect(page.body).to include("Welcome, testking")
+      expect(page.current_url).to include("/recipes")
     end
   end
 end
