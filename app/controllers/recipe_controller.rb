@@ -55,5 +55,13 @@ class RecipeController < AppController
     redirect '/recipes'
   end
 
+  helpers do
+    def valid_recipe_submission?
+      ["name", "ingredients", "instruction"].each do |param|
+
+      end
+
+    end
+  end
 
 end

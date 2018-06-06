@@ -88,6 +88,16 @@ describe 'UserController' do
 
       expect(page.current_url).to include("/recipes")
     end
+
+    it 'redirects a user to the login page if the username or password was entered incorrectly' do
+      visit '/login'
+      fill_in(:username, :with => "test king")
+      fill_in(:password, :with => "testingtesting")
+      click_button "Log In"
+
+      expect(page.current_url).to include("/login")
+      expect(page).to have_content("Username or password incorrect. Please try again.")
+    end
   end
 
   describe 'user profiles paths' do
