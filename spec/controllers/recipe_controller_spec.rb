@@ -182,7 +182,7 @@ describe "Recipe Controller" do
 
       delete "/recipes/#{@recipe.id}/delete"
 
-      expect(page.current_url).to include("/login")
+      expect(last_response.location).to include("/login")
       expect(Recipe.find(@recipe.id)).to eq(@recipe)
     end
 
