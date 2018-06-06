@@ -10,10 +10,11 @@
   <section id="breakfast">
     <h4>Choose a recipe</h4>
       <% @user.recipes.each do |recipe| %>
-        <input type="radio" name="breakfast" id="<%= recipe.id %>" value="<%= recipe.id %>" <%= "checked" if recipe.id == @meal_plan.breakfast %> /><%=recipe.name%><br>
+        <label for="<%= recipe.id %>" ><%=recipe.name%></label>
+        <input type="radio" name="breakfast" id="<%= recipe.id %>" value="<%= recipe.id %>" <%= "checked" if recipe.id == @meal_plan.breakfast %> />
       <% end %>
-      <input type="radio" id="none">Create New
-    <h4>or create a new one</h4>
+    <label for="create-new" class='radio-btn-label'><strong>or create a new one<strong></label>
+    <input type='radio' name='breakfast' id='create-new' />
     <label for="br_new_name">Name</label>
     <abbr title="required">*</abbr>
     <input type="text" id="br_new_name" name="breakfast_new[name]" required />
@@ -34,7 +35,7 @@
       <% @user.recipes.each do |recipe| %>
         <input type="radio" name="lunch" id="<%= recipe.id %>" value="<%= recipe.id %>" <%="checked" if recipe.id == @meal_plan.lunch%> ><%=recipe.name%><br>
       <% end %>
-      <input type="radio" id="none">Create New
+    <input type="radio" id="no-choice" name="no-choice">Create New
     <h4>or create a new one</h4>
     <label for="ln_new_name">Name</label>
     <abbr title="required">*</abbr>
@@ -55,7 +56,7 @@
       <% @user.recipes.each do |recipe| %>
         <input type="radio" name="dinner" id="<%= recipe.id %>" value="<%= recipe.id %>" <%= "checked" if recipe.id == @meal_plan.dinner%>><%=recipe.name%><br>
       <% end %>
-      <input type="radio" id="none">Create New
+    <input type="radio" id="no-choice" name="no-choice">Create New
     <h4>or create a new one</h4>
     <label for="dn_new_name">Name</label>
     <abbr title="required">*</abbr>

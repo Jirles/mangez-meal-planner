@@ -177,29 +177,31 @@ describe "Meal Plan Controller" do
     it 'can create a new recipe using a nested form' do
 
       within(:css, '#breakfast'){choose "#{@cereal.id}"}
-      within(:css, '#lunch'){choose "create_new"}
+      within(:css, '#lunch'){choose "no-choice"}
       fill_in(:ln_new_name, :with => "Pizza")
       fill_in(:ln_new_ingredients, :with => "dough, marinara, mozzarella, pepperoni")
       fill_in(:ln_new_instruction, :with => "top dough with marinara, mozzarella, and pepperoni. bake")
       within(:css, '#dinner'){choose "#{@cobb_salad.id}"}
-      click_button "Create"
+      click_button "Save"
 
-      expect(page.current_url).to include("/meal-plans/#{MealPlan.last.id}")
+      expect(page.current_url).to include("/meal-plans/#{@noice_mp.id}")
+      save_and_open_page
       expect(page).to have_link("Pizza")
       expect(Recipe.last.name).to eq("Pizza")
     end
 
     it 'will not make a new recipe if a field is missing' do
       visit '/meal-plans/new'
-      fill_in(:plan_name, :with => "Noice Meal Plan")
+      fill_in(:plan_name, :with => "Amazing Meal Plan")
       within(:css, '#breakfast'){choose "#{@cereal.id}"}
       within(:css, '#lunch'){choose "#{@cobb_salad.id}"}
+      within(:css, '#dinner'){chooe "no-choice"}
       fill_in(:dn_new_name, :with => "Pizza")
       fill_in(:dn_new_ingredients, :with => "dough, marinara, mozzarella, pepperoni")
-      click_button "Create"
+      click_button "Save"
 
       expect(page.current_url).to include("/meal-plans/new")
-      expect(MealPlan.all.count).to eq(0)
+      expect(MealPlan.count).to eq(1)
     end
   end
 end
