@@ -224,10 +224,37 @@ describe "Meal Plan Controller" do
     it 'displays a shopping list with all of the ingredients associated with recipes' do
       visit "/meal-plans/#{@noice_mp.id}/shopping-list"
 
-      expect(page.body).to have_content("#{@noice_mp.name} Shopping List")
-      expect(page.body).to have_content("Lunch: #{Recipe.find(@noice_mp.lunch).name}")
-      expect(page.body).to have_content("lettuce greens")
-      expect(page.body).to have_content("dressing of choice")
+      expect(page.status_code).to eq(200)
+      expect(page).to have_content("#{@noice_mp.name} Shopping List")
+      expect(page).to have_content("Lunch: #{Recipe.find(@noice_mp.lunch).name}")
+      expect(page).to have_content("lettuce greens")
+      expect(page).to have_content("dressing of choice")
+    end
+
+    it "can be accessed from the meal plan view page" do
+      visit "/meal-plans/#{@noice_mp.id}"
+      click_button "Shopping List"
+
+      expect(page.current_url).to include("/meal-plans/#{@noice_mp.id}/shopping-list")
+    end
+
+    it 'can only be accessed if a user if logged in' do
+      visit '/logout'
+      visit "/meal-plans/#{@noice_mp.id}/shopping-list"
+
+      expect(page.current_url).to include("/login")
+    end
+
+    it 'cannot be accessed if the user does not have owner permissions' do
+      visit '/logout'
+      User.create(:username => "testking", :email => "long_live_the_king@test.com", :password => "testingtesting")
+      visit '/login'
+      fill_in(:username, :with => "testking")
+      fill_in(:password, :with => "testingtesting")
+      click_button "Log In"
+      visit "/meal-plans/#{@noice_mp.id}/shopping-list"
+
+      expect(page.current_url).to include("/recipes")
     end
   end
 end

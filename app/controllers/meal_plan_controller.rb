@@ -24,6 +24,17 @@ class MealPlanController < AppController
     erb :'meal_plans/edit_mp'
   end
 
+  get '/meal-plans/:id/shopping-list' do
+    @meal_plan = MealPlan.find(params[:id])
+    access_check(@meal_plan)
+
+    @breakfast = Recipe.find(@meal_plan.breakfast)
+    @lunch = Recipe.find(@meal_plan.lunch)
+    @dinner = Recipe.find(@meal_plan.dinner)
+
+    erb :'/meal_plans/shopping_list'
+  end
+
   post '/meal-plans' do
     mp = MealPlan.new(name: params[:name], user_id: current_user.id)
     #breakfast
