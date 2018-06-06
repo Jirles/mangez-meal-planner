@@ -11,14 +11,14 @@ class MealPlanController < AppController
 
   get '/meal-plans/:id' do
     @meal_plan = MealPlan.find(params[:id])
-    access_check(@meal_plan)
+    access_check(@meal_plan.user_id)
 
     erb :'meal_plans/show_mp'
   end
 
   get '/meal-plans/:id/edit' do
     @meal_plan = MealPlan.find(params[:id])
-    access_check(@meal_plan)
+    access_check(@meal_plan.user_id)
     @user = current_user
 
     erb :'meal_plans/edit_mp'
@@ -26,7 +26,7 @@ class MealPlanController < AppController
 
   get '/meal-plans/:id/shopping-list' do
     @meal_plan = MealPlan.find(params[:id])
-    access_check(@meal_plan)
+    access_check(@meal_plan.user_id)
 
     @breakfast = Recipe.find(@meal_plan.breakfast)
     @lunch = Recipe.find(@meal_plan.lunch)
