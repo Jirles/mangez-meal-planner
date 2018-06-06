@@ -155,4 +155,15 @@ describe "Meal Plan Controller" do
       expect(page).to have_button("Delete")
     end
   end
+
+  context "edit meal plan page" do
+    before do
+      visit "/meal-plans/#{@noice_mp.id}/edit"
+    end
+    it "has a form with pre-checked radio buttons" do
+      expect(page).to have_selector("form")
+      expect(page.body).to have_checked_field("Fruity Pebbles")
+      expect(page.body).to have_checked_field("Cobb Salad")
+    end
+  end
 end

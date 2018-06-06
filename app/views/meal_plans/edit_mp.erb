@@ -1,0 +1,70 @@
+<h1>Create a Meal Plan</h1>
+
+<form action="/meal-plans" method="post">
+  <h3>Meal Plan Name</h3>
+  <input type="text" id="plan_name" name="name" value="Your Meal Plan" required/>
+
+  <h3>Breakfast</h3>
+  <section id="breakfast">
+    <h4>Choose a recipe</h4>
+      <% @user.recipes.each do |recipe| %>
+        <input type="radio" name="breakfast" id="<%= recipe.id %>" value="<%= recipe.id %>" ><%=recipe.name%><br>
+      <% end %>
+    <h4>or create a new one</h4>
+    <label for="br_new_name">Name</label>
+    <abbr title="required">*</abbr>
+    <input type="text" id="br_new_name" name="breakfast_new[name]" required />
+
+    <label for="br_new_ingredients">Ingredients</label>
+    <abbr title="required">*</abbr>
+    <label for="br_new_ingredients" id="ingredient-instruction">Please enter your ingredients separated by commas, e.g. "cereal, milk"</label>
+    <input type="text" id="br_new_ingredients" name="breakfast_new[ingredients]" required />
+
+    <label for="br_new_instruction">Cooking Instructions</label>
+    <abbr title="required">*</abbr>
+    <input type="text" id="br_new_instruction" name="instruction" required />
+  </section>
+
+  <h3>Lunch</h3>
+  <section id="lunch">
+    <h4>Choose a recipe</h4>
+      <% @user.recipes.each do |recipe| %>
+        <input type="radio" name="lunch" id="<%= recipe.id %>" value="<%= recipe.id %>" ><%=recipe.name%><br>
+      <% end %>
+    <h4>or create a new one</h4>
+    <label for="ln_new_name">Name</label>
+    <abbr title="required">*</abbr>
+    <input type="text" id="ln_new_name" name="lunch_new[name]" required />
+
+    <label for="ln_new_ingredients">Ingredients</label>
+    <abbr title="required">*</abbr>
+    <label for="ln_new_ingredients" id="ingredient-instruction">Please enter your ingredients separated by commas, e.g. "cereal, milk"</label>
+    <input type="text" id="ln_new_ingredients" name="lunch_new[ingredients]" required />
+
+    <label for="ln_new_instruction">Cooking Instructions</label>
+    <abbr title="required">*</abbr>
+    <input type="text" id="ln_new_instruction" name="lunch_new[instruction]" required />
+  </section>
+  <h3>Dinner</h3>
+  <section id="dinner">
+    <h4>Choose a recipe</h4>
+      <% @user.recipes.each do |recipe| %>
+        <input type="radio" name="dinner" id="<%= recipe.id %>" value="<%= recipe.id %>" ><%=recipe.name%><br>
+      <% end %>
+    <h4>or create a new one</h4>
+    <label for="dn_new_name">Name</label>
+    <abbr title="required">*</abbr>
+    <input type="text" id="dn_new_name" name="dinner_new[name]" required />
+
+    <label for="dn_new_ingredients">Ingredients</label>
+    <abbr title="required">*</abbr>
+    <label for="dn_new_ingredients" id="ingredient-instruction">Please enter your ingredients separated by commas, e.g. "cereal, milk"</label>
+    <input type="text" id="dn_new_ingredients" name="dinner_new[ingredients]" required />
+
+    <label for="dn_new_instruction">Cooking Instructions</label>
+    <abbr title="required">*</abbr>
+    <input type="text" id="dn_new_instruction" name="dinner_new[instruction]" required />
+  </section>
+
+  <button type="submit">Create</button>
+</form>
