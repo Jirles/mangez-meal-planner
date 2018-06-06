@@ -60,6 +60,24 @@ describe "Recipe Controller" do
       expect(page.body).to include("PB&J")
       expect(Recipe.last.name).to eq("PB&J")
     end
+
+    it 'redirects the user to the create recipe page if the data submitted was invalid' do
+      params = {
+        :username => "test queen",
+        :password => "supersecret"
+      }
+      post '/login', params
+
+      params = {
+        :name => "PB&J",
+        :ingredients => "peanut butter, jelly, bread"
+      }
+      post '/recipes', params
+
+      expect(last_response.status).to eq(302)
+      follow_redirect!
+      expect(last_response.body).to include("Please fill in all fields.")
+    end
   end
 
   context "view recipe page" do

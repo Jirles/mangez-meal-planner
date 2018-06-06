@@ -20,3 +20,7 @@
 
   <button type="submit">Save</button>
 </form>
+
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>

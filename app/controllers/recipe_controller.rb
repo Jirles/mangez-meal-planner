@@ -31,12 +31,22 @@ class RecipeController < AppController
   end
 
   post '/recipes' do
+    if !valid_recipe_submission?
+      flash[:message] = "Please fill in all fields."
+      redirect '/recipes/new'
+    end
+
     params[:user_id] = current_user.id
     Recipe.create(params)
     redirect '/recipes'
   end
 
   patch '/recipes/:id' do
+    if !valid_recipe_submission?
+      flash[:message] = "Please fill in all fields."
+      redirect '/recipes/new'
+    end
+
     recipe = Recipe.find(params[:id])
     recipe.name = params[:name]
     recipe.ingredients = params[:ingredients]
@@ -56,11 +66,9 @@ class RecipeController < AppController
   end
 
   helpers do
+
     def valid_recipe_submission?
-      ["name", "ingredients", "instruction"].each do |param|
-
-      end
-
+      ["name", "ingredients", "instruction"].all?{ |param| params[param] && !params[param].empty? }
     end
   end
 
