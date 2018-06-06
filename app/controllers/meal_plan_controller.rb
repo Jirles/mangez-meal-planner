@@ -1,3 +1,5 @@
+require 'pry'
+
 class MealPlanController < AppController
 
   get '/meal-plans/new' do
@@ -15,19 +17,33 @@ class MealPlanController < AppController
   end
 
   post '/meal-plans' do
-    "#{params}"
-    #mp = MealPlan.new(name: params[:name], user_id: current_user.id)
-    #if params[:breakfast]
-      #mp.breafast = params[:breakfast]
-    #else
-      # redirect '/meal-plans/new' if params[:breakfast_new].values.any?{|v| v.empty?}
-      #params[:breakfast_new][:user_id] = current_user.id
-      #breakfast = Recipe.create(params[:breakfast_new])
-      #mp.breakfast = breakfast.id
+    binding.pry
+    mp = MealPlan.new(name: params[:name], user_id: current_user.id)
+    #breakfast
+    mp.breakfast = set_meal_field(breakfast)
+    #lunch
+    mp.lunch = set_meal_field(lunch)
+    #dinner
+    mp.dinner = set_meal_field(dinner)
+    mp.save
+    redirect "/users/profile/#{current_user.slug}"
+  end
 
-    #same for lunch_new and dinner_new
-    #mp.save 
+  helpers do
+    def valid_new_recipe?(key)
+      redirect '/meal-plans/new' if params[key].values.any?{|v| v.empty?}
+    end
 
-    #redirect "/users/profile/#{current_user.slug}"
+    def set_meal_field(meal)
+      nested_hash_key = meal + "_new"
+      if params[meal]
+        return params[meal]
+      else
+        valid_new_recipe?
+        params[nested_hash_key][:user_id] = current_user.id
+        Recipe.create(params[nested_hash_key]).id
+      end
+    end
+
   end
 end

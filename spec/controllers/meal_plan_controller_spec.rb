@@ -41,8 +41,7 @@ describe "Meal Plan Controller" do
       visit "/users/profile/#{@user.slug}"
       click_link "Create New Meal Plan"
 
-      fill_in(:mp_name, :with => "Noice Meal Plan")
-
+      fill_in(:plan_name, :with => "Noice Meal Plan")
       within(:css, '#breakfast'){choose "#{@cereal.id}"}
       within(:css, '#lunch'){choose "#{@cobb_salad.id}"}
       within(:css, '#dinner'){choose "#{@mac_n_cheese.id}"}
