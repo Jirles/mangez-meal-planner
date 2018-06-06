@@ -3,60 +3,67 @@
 <form action="/meal-plans" method="post">
   <h3>Meal Plan Name</h3>
   <input type="text" id="mp_name" name="name" value="Your Meal Plan" required/>
+
   <h3>Breakfast</h3>
-  <h4>Choose a recipe</h4>
-    <% @user.recipes.each do |recipe| %>
-      <input type="radio" name="breakfast" id="<%= recipe.id %>"><%=recipe.name%><br>
-    <% end %>
-  <h4>or create a new one</h4>
-  <label for="name">Name</label>
-  <abbr title="required">*</abbr>
-  <input type="text" id="name" name="name" required />
+  <section id="dinner">
+    <h4>Choose a recipe</h4>
+      <% @user.recipes.each do |recipe| %>
+        <input type="radio" name="breakfast" id="<%= recipe.id %>"><%=recipe.name%><br>
+      <% end %>
+    <h4>or create a new one</h4>
+    <label for="name">Name</label>
+    <abbr title="required">*</abbr>
+    <input type="text" id="name" name="name" required />
 
-  <label for="ingredients">Ingredients</label>
-  <abbr title="required">*</abbr>
-  <label for="ingredients" id="ingredient-instruction">Please enter your ingredients separated by commas, e.g. "cereal, milk"</label>
-  <input type="text" id="ingredients" name="ingredients" required />
+    <label for="ingredients">Ingredients</label>
+    <abbr title="required">*</abbr>
+    <label for="ingredients" id="ingredient-instruction">Please enter your ingredients separated by commas, e.g. "cereal, milk"</label>
+    <input type="text" id="ingredients" name="ingredients" required />
 
-  <label for="instruction">Cooking Instructions</label>
-  <abbr title="required">*</abbr>
-  <input type="text" id="instruction" name="instruction" required />
+    <label for="instruction">Cooking Instructions</label>
+    <abbr title="required">*</abbr>
+    <input type="text" id="instruction" name="instruction" required />
+  </section>
+
   <h3>Lunch</h3>
-  <h4>Choose a recipe</h4>
-    <% @user.recipes.each do |recipe| %>
-      <input type="radio" name="lunch" value="<%= recipe.id %>"><%=recipe.name%><br>
-    <% end %>
-  <h4>or create a new one</h4>
-  <label for="name">Name</label>
-  <abbr title="required">*</abbr>
-  <input type="text" id="name" name="name" required />
+  <section id="lunch">
+    <h4>Choose a recipe</h4>
+      <% @user.recipes.each do |recipe| %>
+        <input type="radio" name="lunch" id="<%= recipe.id %>"><%=recipe.name%><br>
+      <% end %>
+    <h4>or create a new one</h4>
+    <label for="name">Name</label>
+    <abbr title="required">*</abbr>
+    <input type="text" id="name" name="name" required />
 
-  <label for="ingredients">Ingredients</label>
-  <abbr title="required">*</abbr>
-  <label for="ingredients" id="ingredient-instruction">Please enter your ingredients separated by commas, e.g. "cereal, milk"</label>
-  <input type="text" id="ingredients" name="ingredients" required />
+    <label for="ingredients">Ingredients</label>
+    <abbr title="required">*</abbr>
+    <label for="ingredients" id="ingredient-instruction">Please enter your ingredients separated by commas, e.g. "cereal, milk"</label>
+    <input type="text" id="ingredients" name="ingredients" required />
 
-  <label for="instruction">Cooking Instructions</label>
-  <abbr title="required">*</abbr>
-  <input type="text" id="instruction" name="instruction" required />
+    <label for="instruction">Cooking Instructions</label>
+    <abbr title="required">*</abbr>
+    <input type="text" id="instruction" name="instruction" required />
+</section>
   <h3>Dinner</h3>
-  <h4>Choose a recipe</h4>
-    <% @user.recipes.each do |recipe| %>
-      <input type="radio" name="dinner" value="<%= recipe.id %>"><%=recipe.name%><br>
-    <% end %>
-  <h4>or create a new one</h4>
-  <label for="name">Name</label>
-  <abbr title="required">*</abbr>
-  <input type="text" id="name" name="name" required />
+  <section id="dinner">
+    <h4>Choose a recipe</h4>
+      <% @user.recipes.each do |recipe| %>
+        <input type="radio" name="dinner" value="<%= recipe.id %>"><%=recipe.name%><br>
+      <% end %>
+    <h4>or create a new one</h4>
+    <label for="name">Name</label>
+    <abbr title="required">*</abbr>
+    <input type="text" id="name" name="name" required />
 
-  <label for="ingredients">Ingredients</label>
-  <abbr title="required">*</abbr>
-  <label for="ingredients" id="ingredient-instruction">Please enter your ingredients separated by commas, e.g. "cereal, milk"</label>
-  <input type="text" id="ingredients" name="ingredients" required />
+    <label for="ingredients">Ingredients</label>
+    <abbr title="required">*</abbr>
+    <label for="ingredients" id="ingredient-instruction">Please enter your ingredients separated by commas, e.g. "cereal, milk"</label>
+    <input type="text" id="ingredients" name="ingredients" required />
 
-  <label for="instruction">Cooking Instructions</label>
-  <abbr title="required">*</abbr>
-  <input type="text" id="instruction" name="instruction" required />
-  
+    <label for="instruction">Cooking Instructions</label>
+    <abbr title="required">*</abbr>
+    <input type="text" id="instruction" name="instruction" required />
+  </section>
   <button type="submit">Create</button>
 </form>

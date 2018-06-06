@@ -38,20 +38,15 @@ describe "Meal Plan Controller" do
     end
 
     it 'creates a new instance of a meal plan then redirects a user to their profile' do
-      params = {
-        :name => "Noice Meal Plan",
-        :breakfast => @cereal.id,
-        :lunch => @mac_n_cheese.id,
-        :dinner => @cobb_salad.id,
-        :user_id => @user.id
-      }
-      post '/meal-plans', params
+      visit "/users/profile/#{@user.slug}"
+      click_link "Create New Meal Plan"
 
-      expect(last_response.status).to eq(302)
-      follow_redirect!
-      expect(last_response.body).to include("Your Meal Plans")
-      expect(last_response.body).to include("Noice Meal Plan")
-      expect(MealPlan.last.name).to eq("Noice Meal Plan")
+      fill_in(:mp_name, :with => "Noice Meal Plan")
+
+      within(:css, '#breakfast'){choose "#{@cereal.id}"}
+      within(:css, '#lunch'){choose "#{@cobb_salad.id}"}
+      within(:css, '#dinner'){choose "#{@mac_n_cheese.id}"}
+      
     end
 
     it "does not a user access the page unless they are logged in" do
