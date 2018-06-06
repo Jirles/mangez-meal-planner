@@ -139,7 +139,7 @@ describe "Meal Plan Controller" do
       click_button "Log In"
       visit "/meal-plans/#{@noice_mp.id}"
 
-      expect(page.body).to include("Welcome, testking")
+      expect(page).to have_content("You do not have permissions to view this content.")
       expect(page.current_url).to include("/recipes")
     end
 
@@ -221,6 +221,7 @@ describe "Meal Plan Controller" do
       visit "/meal-plans/#{@noice_mp.id}/edit"
 
       expect(page.current_url).to include("/recipes")
+      expect(page).to have_content("You do not have permissions to view this content.")
     end
   end
 
@@ -263,6 +264,7 @@ describe "Meal Plan Controller" do
       visit "/meal-plans/#{@noice_mp.id}/shopping-list"
 
       expect(page.current_url).to include("/recipes")
+      expect(page).to have_content("You do not have permissions to view this content.")
     end
   end
 end
