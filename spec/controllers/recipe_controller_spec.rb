@@ -129,37 +129,32 @@ describe "Recipe Controller" do
     end
 
     it 'allows a user to edit a recipe and save changes and takes them to the view recipe page' do
-      params = {
-        :name => "PB&J",
-        :ingredients => "peanut butter, jelly, bread",
-        :instruction => "spread peanut butter and jelly on bread. cut in half. enjoy."
-      }
-      patch "/recipes/#{@recipe.id}", params
-      follow_redirect!
-      expect(last_response.body).to include("PB&J")
-      expect(last_response.body).to include("spread peanut butter and jelly on bread. cut in half. enjoy.")
+      fill_in(:instruction, :with => "spread peanut butter and jelly on bread. cut in half. enjoy.")
+      click_button "Save"
+
+      expect(page.current_url).to include("/recipes/#{@recipe.id}")
+      expect(page.body).to include("spread peanut butter and jelly on bread. cut in half. enjoy.")
     end
 
     it 'does not allow a user to view the page if they are not logged in' do
-      get '/logout'
+      visit '/logout'
 
-      get "/recipes/#{@recipe.id}/edit"
-      expect(last_response.status).to eq(302)
-      follow_redirect!
-      expect(last_response.body).to include("Welcome back")
+      visit "/recipes/#{@recipe.id}/edit"
+      expect(page.current_url).to include("/login")
+      expect(page.body).to include("Welcome back")
     end
 
     it "does not allow a user to view the page if they do not have owner permissions" do
-      get '/logout'
+      visit '/logout'
 
       User.create(:username => "test queen", :email => "all_hail@test.com", :password => "supersecret")
-      params = {:username => "test queen", :password => "supersecret"}
-      post '/login', params
+      visit '/login'
+      fill_in(:username, :with => "test queen")
+      fill_in(:password, :with => "supersecret")
+      click_button 'Log In'
 
-      get "/recipes/#{@recipe.id}/edit"
-      expect(last_response.status).to eq(302)
-      follow_redirect!
-      expect(last_response.body).to include("Welcome, test queen")
+      visit "/recipes/#{@recipe.id}/edit"
+      expect(page.current_url).to include('/recipes')
     end
   end
 
