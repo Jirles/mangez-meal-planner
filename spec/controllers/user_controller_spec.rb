@@ -42,15 +42,13 @@ describe 'UserController' do
      end
 
      it 'cannot be viewed by a user who has already signed in' do
-       params = {
-          :username => "testking",
-          :email => "long_live_the_king@test.com",
-          :password => "testingtesting"
-        }
-        post '/signup', params
+       fill_in(:username, :with => "testqueen")
+       fill_in(:email, :with => "all_hail@test.com")
+       fill_in(:password, :with => "testytest")
+       click_button "Submit"
 
-        visit '/signup'
-        expect(last_response.location).to include('/recipes')
+       visit '/signup'
+       expect(page.current_url).to include('/recipes')
      end
   end
 
@@ -75,7 +73,7 @@ describe 'UserController' do
       params = {:username => "testking", :password => "testingtesting"}
       post '/login', params
 
-      visit '/recipes'
+      get '/recipes'
       expect(last_response.location).to include("/recipes")
     end
   end
