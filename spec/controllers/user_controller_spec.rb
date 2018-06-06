@@ -82,32 +82,29 @@ describe 'UserController' do
 
   describe 'user profiles paths' do
     before do
-      params = {
-         :username => "test queen",
-         :email => "all_hail@test.com",
-         :password => "testytest"
-       }
-       post '/signup', params
+       visit '/signup'
+       fill_in(:username, :with => "test queen")
+       fill_in(:email, :with => "all_hail@test.com")
+       fill_in(:password, :with => "testytest")
+       click_button "Submit"
+      @user = User.last
     end
 
     it 'directs a user to their individual profile page when they link to users/profile' do
-      get 'users/profile'
+      visit 'users/profile'
 
-      expect(last_response.location).to include("/profile/test-queen")
+      expect(page.current_url).to include("/profile/test-queen")
     end
 
     it "/profile/:slug displays a user's recipes and meal plans" do
-      user = User.find_by(username: "test queen")
-      mc = Recipe.create(name: "Mac 'n' Cheese", ingredients: "cheese, macaroni, milk, butter", instruction: "mix it together in a pot", user_id: user.id)
-      cobb = @cobb_salad = Recipe.create(name: "Cobb Salad", ingredients: "lettuce greens, eggs, chicken, dressing of choice", instruction: "mix it together in a bowl", user_id: user.id)
-      MealPlan.create(name: "Delicious Meals", lunch: mc.id, dinner: cobb.id, user_id: user.id)
+      mc = Recipe.create(name: "Mac 'n' Cheese", ingredients: "cheese, macaroni, milk, butter", instruction: "mix it together in a pot", user_id: @user.id)
+      cobb = @cobb_salad = Recipe.create(name: "Cobb Salad", ingredients: "lettuce greens, eggs, chicken, dressing of choice", instruction: "mix it together in a bowl", user_id: @user.id)
+      MealPlan.create(name: "Delicious Meals", lunch: mc.id, dinner: cobb.id, user_id: @user.id)
 
-      get 'users/profile/test-queen'
-      expect(last_response.body).to include("Welcome, test queen")
-      expect(last_response.body).to include("Your Recipes")
-      expect(last_response.body).to include("Mac 'n' Cheese")
-      expect(last_response.body).to include("Your Meal Plans")
-      expect(last_response.body).to include("Cobb Salad")
+      visit 'users/profile/test-queen'
+      expect(page.body).to include("Welcome, test queen")
+      expect(page.body).to include("Mac 'n' Cheese")
+      expect(page.body).to include("Delicious Meals")
     end
 
     it 'only allows the current_user to access their profile' do
@@ -131,12 +128,10 @@ describe 'UserController' do
 
   context 'logout action' do
     it 'logs a person out of the app' do
-      params = { :username => "testking", :password => "testingtesting"}
-      post '/login', params
+      visit '/logout'
+      visit '/recipes' #=> set up to redirect to login if no user is currently logged in
 
-      get '/logout'
-      get '/recipes' #=> set up to redirect to login if no user is currently logged in
-      expect(last_response.location).to include('/login')
+      expect(page.current_url).to include('/login')
     end
   end
 
