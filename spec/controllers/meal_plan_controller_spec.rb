@@ -162,13 +162,26 @@ describe "Meal Plan Controller" do
       @pizza = Recipe.create(:name => "Pizza", :ingredients => "dough, mozzarella, marinara, pepperoni", :instruction => "top dough with mozzarella, marinara, and pepperoni. bake", :user_id => @user.id)
       visit "/meal-plans/#{@noice_mp.id}/edit"
     end
+
     it "has a form with pre-checked radio buttons" do
       expect(page).to have_selector("form")
       expect(page).to have_checked_field("#{@cereal.id}")
       expect(page).to have_checked_field("#{@cobb_salad.id}")
     end
+
     it 'sends a patch request to the controller' do
       expect(find("#hidden", :visible => false).value).to eq("patch")
+    end
+    
+    it 'edits a meal plan and redirects the user to the meal plan view page' do
+      within(:css, '#dinner'){choose "#{@pizza.id}"}
+      click_button "Save"
+
+      expect(page.current_url).to include("/meal-plans/#{@noice_mp.id}")
+      expect(page).to have_link("Fruity Pebbles")
+      expect(page).to have_link("Cobb Salad")
+      expect(page).to have_link("Pizza")
+      expect(@noice_mp.dinner).to eq(@pizza.id)
     end
   end
 end
