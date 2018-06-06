@@ -63,6 +63,7 @@ describe "Meal Plan Controller" do
       click_button "Create"
 
       expect(page.current_url).to include("/meal-plans/new")
+      #expect(page).to have_content("Please fill in all fields.")
       expect(MealPlan.all.count).to eq(0)
     end
 
@@ -98,6 +99,7 @@ describe "Meal Plan Controller" do
       click_button "Create"
 
       expect(page.current_url).to include("/meal-plans/new")
+      expect(page).to have_content("Please fill in all fields.")
       expect(MealPlan.all.count).to eq(0)
     end
   end
@@ -183,6 +185,7 @@ describe "Meal Plan Controller" do
       fill_in(:ln_new_instruction, :with => "top dough with marinara, mozzarella, and pepperoni. bake")
       within(:css, '#dinner'){choose "#{@cobb_salad.id}"}
       click_button "Save"
+
       expect(page.current_url).to include("/meal-plans/#{@noice_mp.id}")
       expect(page).to have_link("Pizza")
       expect(Recipe.last.name).to eq("Pizza")
@@ -195,6 +198,7 @@ describe "Meal Plan Controller" do
       click_button "Save"
 
       expect(page.current_url).to include("/meal-plans/#{@noice_mp.id}/edit")
+      expect(page).to have_content("Please fill in all fields.")
     end
 
     it 'cannot be visited if a user is logged out' do

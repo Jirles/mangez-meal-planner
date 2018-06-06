@@ -62,20 +62,21 @@ class MealPlanController < AppController
   end
 
   helpers do
-    def valid_new_recipe?(to_url, key)
-      redirect to_url if params[key].values.any?{|v| v.empty?}
-    end
 
     def set_meal_field(to_url, meal)
       nested_hash_key = meal + "_new"
       if params[meal] && !params[meal].empty?
         return params[meal]
+      end
+      if !valid_recipe_submission?(params[nested_hash_key])
+        flash[:message] = "Please fill in all fields."
+        redirect to_url
       else
-        valid_new_recipe?(to_url, nested_hash_key)
         params[nested_hash_key][:user_id] = current_user.id
         Recipe.create(params[nested_hash_key]).id
       end
     end
 
   end
+
 end

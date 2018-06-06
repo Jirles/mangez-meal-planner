@@ -35,6 +35,11 @@ class AppController < Sinatra::Base
       redirect_if_not_logged_in
       owner_permissions_check(obj)
     end
+
+    def valid_recipe_submission?(params)
+      ["name", "ingredients", "instruction"].all?{ |attribute| params[attribute] && !params[attribute].empty? }
+    end
+
   end
 
 end
