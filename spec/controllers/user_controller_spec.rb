@@ -30,14 +30,25 @@ describe 'UserController' do
      it 'only accepts unique usernames, i.e. not already in db' do
        User.create(:username => "testking", :email => "long_live_the_king@test.com", :password => "testingtesting")
 
+       visit '/signup'
+       fill_in(:username, :with => "testking")
+       fill_in(:email, :with => "different_king@test.com")
+       fill_in(:password, :with => "somethingelse")
+       click_button "Submit"
+
+       expect(page.current_url).to include("/signup")
+       expect(page).to have_content("That username is already taken. Please pick another.")
+       expect(User.find_by(email: "different_king@test.com")).to be_nil
+     end
+
+     it 'does not accept a form that contains empty fields' do
        params = {
-         :username => "testking",
          :email => "different_king@test.com",
          :password => "somethingelse"
        }
-
        post '/signup', params
-       expect(last_response.location).to include("/signup")
+
+       expect(last_response.body).to include("Please fill out all fields.")
        expect(User.find_by(email: "different_king@test.com")).to be_nil
      end
 

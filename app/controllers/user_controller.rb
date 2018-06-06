@@ -1,3 +1,5 @@
+require 'pry'
+
 class UserController < AppController
 
   get '/signup' do
@@ -6,16 +8,16 @@ class UserController < AppController
   end
 
   post '/signup' do
-    user = User.create(params)
-    if user.id #=> will be nil if the object could not be saved to db
+    user = User.new(params)
+    if user.save
       session[:user_id] = user.id
       redirect '/recipes'
     else
-      if params.values.any? {|v| v.empty? }
-        flash[:message] = "Please fill out all fields."
-      else
+      if User.find_by(username: params[:username])
         flash[:message] = "That username is already taken. Please pick another."
-      end 
+      else
+        flash[:message] = "Please fill out all fields."
+      end
       redirect '/signup'
     end
   end
