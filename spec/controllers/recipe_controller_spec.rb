@@ -160,43 +160,45 @@ describe "Recipe Controller" do
 
   context "delete recipe action" do
     before do
-      @user = User.create(:username => "test queen", :email => "all_hail@test.com", :password => "supersecret")
+      @user = User.create(:username => "testking", :email => "long_live_the_king@test.com", :password => "testingtesting")
       @recipe = Recipe.create(:name => "PB&J", :ingredients => "peanut butter, jelly, bread", :instruction => "spread peanut butter and jelly on bread", :user_id => @user.id)
-      params = {:username => "test queen", :password => "supersecret"}
-      post '/login', params
+      visit '/login'
+      fill_in(:username, :with => "testking")
+      fill_in(:password, :with => "testingtesting")
+      click_button "Log In"
     end
 
-    it "deletes a recipe" do
-      delete "/recipes/#{@recipe.id}/delete"
+    it "deletes a recipe and returns the user to the recipe index" do
+      visit "/recipes/#{@recipe.id}"
+      click_button "Delete"
 
-      expect(last_response.status).to eq(302)
-      follow_redirect!
-      expect(last_response.body).to include("Welcome, test queen")
-      expect(last_response.body).not_to include("PB&J")
+      expect(page.current_url).to include("/recipes")
+      expect(page).not_to have_link("PB&J")
       expect{Recipe.find(@recipe.id)}.to raise_error{ |error| expect(error).to be_a(ActiveRecord::RecordNotFound) }
     end
 
-    it 'does not allow a user to delete a recipe if they are not logged in' do
-      get '/logout'
+    it 'does not allow a user to delete a recipe if they are not logged in, redirects them to login page' do
+      visit '/logout'
 
       delete "/recipes/#{@recipe.id}/delete"
 
-      expect(last_response.status).to eq(302)
-      follow_redirect!
-      expect(last_response.body).to include("Welcome back")
+      expect(page.current_url).to include("/login")
+      expect(Recipe.find(@recipe.id)).to eq(@recipe)
     end
 
     it 'does not allow a user to delete a recipe to which they do not have owner permissions' do
-      get '/logout'
-      @user = User.create(:username => "testking", :email => "long_live_the_king@test.com", :password => "testingtesting")
-      params = {:username => "testking", :password => "testingtesting"}
+      visit '/logout'
 
-      post '/login', params
+      @user = User.create(:username => "test queen", :email => "all_hail@test.com", :password => "supersecret")
+      visit '/login'
+      fill_in(:username, :with => "test queen")
+      fill_in(:password, :with => "supersecret")
+      click_button "Log In"
+
       delete "/recipes/#{@recipe.id}/delete"
-      expect(last_response.status).to eq(302)
-      follow_redirect!
-      expect(last_response.body).to include("Welcome, testking")
-      expect(last_response.body).to include("PB&J")
+
+      expect(page.current_url).to include("/recipes")
+      expect(Recipe.find(@recipe.id)).to eq(@recipe)
     end
 
   end
