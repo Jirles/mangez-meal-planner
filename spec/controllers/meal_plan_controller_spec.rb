@@ -6,26 +6,37 @@ describe "Meal Plan Controller" do
     @mac_n_cheese = Recipe.create(name: "Mac 'n' Cheese", ingredients: "cheese, macaroni, milk, butter", instruction: "mix it together in a pot", user_id: @user.id)
     @cobb_salad = Recipe.create(name: "Cobb Salad", ingredients: "lettuce greens, eggs, chicken, dressing of choice", instruction: "mix it together in a bowl", user_id: @user.id)
     @cereal = Recipe.create(name:"Fruity Pebbles", ingredients: "fruity pebbles, milk", instruction:"pour into a bowl", user_id: @user.id)
-    params = {username: "test queen", password: "supersecret"}
-    post '/login', params
+    visit '/login'
+    fill_in(:username, :with => "test queen")
+    fill_in(:password, :with => "supersecret")
+    click_button "Log In"
   end
 
   context "create meal plan page" do
     it "displays a form to the user to create a meal plan" do
-      get '/meal-plans/new'
-      expect(last_response.status).to eq(200)
-      expect(last_response.body).to include("Create a Meal Plan")
-      expect(last_response.body).to include("</form>")
+      visit "/users/profile/#{@user.slug}"
+      click_link "Create New Meal Plan"
+
+      expect(page.status_code).to eq(200)
+      expect(page.body).to include("Create a Meal Plan")
+      expect(page).to have_selector("form")
     end
 
     it "contains a form with radio buttons for breakfast, lunch, and dinner" do
-      get '/meal-plans/new'
+      visit '/meal-plans/new'
 
-      expect(last_response.body).to include('type="radio"')
-      expect(last_response.body).to include("Fruity Pebbles")
-      expect(last_response.body).to include("Mac 'n' Cheese")
-      expect(last_response.body).to include("Cobb Salad")
+      expect(page).to have_unchecked_field("#{@mac_n_cheese.id}")
+      expect(page).to have_unchecked_field("#{@cobb_salad.id}")
+      expect(page).to have_unchecked_field("#{@cereal.id}")
     end
+    it 'contains fields for creating a new recipe' do
+      visit '/meal-plans/new'
+
+      expect(page).to have_field("Name")
+      expect(page).to have_field("Ingredients")
+      expect(page).to have_field("Instruction")
+    end
+
     it 'creates a new instance of a meal plan then redirects a user to their profile' do
       params = {
         :name => "Noice Meal Plan",
