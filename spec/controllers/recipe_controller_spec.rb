@@ -174,6 +174,7 @@ describe "Recipe Controller" do
 
       visit "/recipes/#{@recipe.id}/edit"
       expect(page.current_url).to include('/recipes')
+      expect(page).to have_content("You do not have permissions to view this content.")
     end
 
     it 'redirects the user to the edit recipe page if the data submitted was invalid' do
@@ -231,13 +232,17 @@ describe "Recipe Controller" do
 
       @user = User.create(:username => "test queen", :email => "all_hail@test.com", :password => "supersecret")
       visit '/login'
-      fill_in(:username, :with => "test queen")
-      fill_in(:password, :with => "supersecret")
-      click_button "Log In"
+      params = {
+        :username => "test queen",
+        :password => "supersecret"
+      }
+      post '/login', params
 
       delete "/recipes/#{@recipe.id}/delete"
 
-      expect(page.current_url).to include("/recipes")
+      expect(last_response.status).to eq(302)
+      follow_redirect!
+      expect(last_response.body).to include("You do not have permissions to view this content.")
       expect(Recipe.find(@recipe.id)).to eq(@recipe)
     end
 
