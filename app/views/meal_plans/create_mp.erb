@@ -9,57 +9,54 @@
       <input type="radio" name="breakfast" id="<%= recipe.id %>"><%=recipe.name%><br>
     <% end %>
   <h4>or create a new one</h4>
-    <label for="br_new_name">Name: </label>
-    <input type="text" id="br_new_name" name="breakfast_new[name]" />
-    <abbr title="required">*</abbr>
-    <br>
-    <label for="br_new_ingredients">Ingredients: </label>
-    <input type="text" id="br_new_ingredients" name="breakfast_new[ingredients]" />
-    <abbr title="required">*</abbr>
-    <br>
-    <label for="br_new_ingredients" id="ingredient-instruction">Please enter your ingredients separated by commas, e.g. "cereal, milk"</label>
-    <br><br>
-    <label for="br_new_instruction">Cooking Instructions: </label>
-    <input type="text" id="br_new_instruction" name="breakfast_new[instruction]" />
-    <abbr title="required">*</abbr>
+  <label for="name">Name</label>
+  <abbr title="required">*</abbr>
+  <input type="text" id="name" name="name" required />
+
+  <label for="ingredients">Ingredients</label>
+  <abbr title="required">*</abbr>
+  <label for="ingredients" id="ingredient-instruction">Please enter your ingredients separated by commas, e.g. "cereal, milk"</label>
+  <input type="text" id="ingredients" name="ingredients" required />
+
+  <label for="instruction">Cooking Instructions</label>
+  <abbr title="required">*</abbr>
+  <input type="text" id="instruction" name="instruction" required />
   <h3>Lunch</h3>
   <h4>Choose a recipe</h4>
     <% @user.recipes.each do |recipe| %>
       <input type="radio" name="lunch" value="<%= recipe.id %>"><%=recipe.name%><br>
     <% end %>
   <h4>or create a new one</h4>
-    <label for="ln_new_name">Name: </label>
-    <input type="text" id="ln_new_name" name="lunch_new[name]" />
-    <abbr title="required">*</abbr>
-    <br>
-    <label for="ln_new_ingredients">Ingredients: </label>
-    <input type="text" id="ln_new_ingredients" name="lunch_new[ingredients]" />
-    <abbr title="required">*</abbr>
-    <br>
-    <label for="ln_ingredients" id="ingredient-instruction">Please enter your ingredients separated by commas, e.g. "cereal, milk"</label>
-    <br><br>
-    <label for="ln_instruction">Cooking Instructions: </label>
-    <input type="text" id="ln_instruction" name="lunch_new[instruction]" />
-    <abbr title="required">*</abbr>
+  <label for="name">Name</label>
+  <abbr title="required">*</abbr>
+  <input type="text" id="name" name="name" required />
+
+  <label for="ingredients">Ingredients</label>
+  <abbr title="required">*</abbr>
+  <label for="ingredients" id="ingredient-instruction">Please enter your ingredients separated by commas, e.g. "cereal, milk"</label>
+  <input type="text" id="ingredients" name="ingredients" required />
+
+  <label for="instruction">Cooking Instructions</label>
+  <abbr title="required">*</abbr>
+  <input type="text" id="instruction" name="instruction" required />
   <h3>Dinner</h3>
   <h4>Choose a recipe</h4>
     <% @user.recipes.each do |recipe| %>
       <input type="radio" name="dinner" value="<%= recipe.id %>"><%=recipe.name%><br>
     <% end %>
   <h4>or create a new one</h4>
-    <label for="dn_new_name">Name: </label>
-    <input type="text" id="dn_new_name" name="dinner_new[name]" />
-    <abbr title="required">*</abbr>
-    <br>
-    <label for="dn_new_ingredients">Ingredients: </label>
-    <input type="text" id="dn_new_ingredients" name="dinner_new[ingredients]" />
-    <abbr title="required">*</abbr>
-    <br>
-    <label for="dn_ingredients" id="ingredient-instruction">Please enter your ingredients separated by commas, e.g. "cereal, milk"</label>
-    <br><br>
-    <label for="dn_instruction">Cooking Instructions: </label>
-    <input type="text" id="dn_instruction" name="dinner_new[instruction]" />
-    <abbr title="required">*</abbr>
-  <br></br>
+  <label for="name">Name</label>
+  <abbr title="required">*</abbr>
+  <input type="text" id="name" name="name" required />
+
+  <label for="ingredients">Ingredients</label>
+  <abbr title="required">*</abbr>
+  <label for="ingredients" id="ingredient-instruction">Please enter your ingredients separated by commas, e.g. "cereal, milk"</label>
+  <input type="text" id="ingredients" name="ingredients" required />
+
+  <label for="instruction">Cooking Instructions</label>
+  <abbr title="required">*</abbr>
+  <input type="text" id="instruction" name="instruction" required />
+  
   <button type="submit">Create</button>
 </form>
