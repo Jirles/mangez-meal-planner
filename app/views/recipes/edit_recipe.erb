@@ -5,9 +5,9 @@
 <form action="/recipes/<%=@recipe.id%>" method="post">
   <input type="hidden" class="hidden" name="_method" value="patch" />
 
-  <label for="recipe_name">Name</label>
+  <label for="name">Name</label>
   <abbr title="required">*</abbr>
-  <input type="text" id="recipe_name" name="recipe_name" value="<%=@recipe.name%>"required />
+  <input type="text" id="name" name="name" value="<%=@recipe.name%>"required />
 
   <label for="ingredients">Ingredients</label>
   <abbr title="required">*</abbr>
