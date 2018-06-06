@@ -4,23 +4,19 @@
 
 <form action="/recipes/<%=@recipe.id%>" method="post">
   <input type="hidden" class="hidden" name="_method" value="patch" />
-  <p>
-    <label for="name">Name: </label>
-    <input type="text" id="name" name="name" value="<%=@recipe.name%>" required />
-    <abbr title="required">*</abbr>
-  </p>
-  <p>
-    <label for="ingredients">Ingredients: </label>
-    <input type="text" id="ingredients" name="ingredients" value="<%=@recipe.ingredients%>" required />
-    <abbr title="required">*</abbr>
-    <br>
-    <label for="ingredients" id="ingredient-instruction">Please enter your ingredients separated by commas, e.g. "cereal, milk"</label>
-  </p>
-  <p>
-    <label for="instruction">Cooking Instructions: </label>
-    <input type="text" id="instruction" name="instruction" value="<%=@recipe.instruction%>" required />
-    <abbr title="required">*</abbr>
-  </p>
-  <br><br>
+
+  <label for="recipe_name">Name</label>
+  <abbr title="required">*</abbr>
+  <input type="text" id="recipe_name" name="recipe_name" value="<%=@recipe.name%>"required />
+
+  <label for="ingredients">Ingredients</label>
+  <abbr title="required">*</abbr>
+  <label for="ingredients" id="ingredient-instruction">Please enter your ingredients separated by commas, e.g. "cereal, milk"</label>
+  <input type="text" id="ingredients" name="ingredients" value="<%=@recipe.ingredients%>"required />
+
+  <label for="instruction">Cooking Instructions</label>
+  <abbr title="required">*</abbr>
+  <input type="text" id="instruction" name="instruction" value="<%=@recipe.instruction%>"required />
+
   <button type="submit">Save</button>
 </form>
