@@ -159,12 +159,16 @@ describe "Meal Plan Controller" do
   context "edit meal plan page" do
     before do
       @noice_mp = MealPlan.create(:name => "Noice Meal Plan", :breakfast => @cereal.id, :lunch => @cobb_salad.id, :dinner => @mac_n_cheese.id, :user_id => @user.id)
+      @pizza = Recipe.create(:name => "Pizza", :ingredients => "dough, mozzarella, marinara, pepperoni", :instruction => "top dough with mozzarella, marinara, and pepperoni. bake", :user_id => @user.id)
       visit "/meal-plans/#{@noice_mp.id}/edit"
     end
     it "has a form with pre-checked radio buttons" do
       expect(page).to have_selector("form")
       expect(page).to have_checked_field("#{@cereal.id}")
       expect(page).to have_checked_field("#{@cobb_salad.id}")
+    end
+    it 'sends a patch request to the controller' do
+      expect(find("#hidden", :visible => false).value).to eq("patch")
     end
   end
 end
