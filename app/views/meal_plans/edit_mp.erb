@@ -1,6 +1,6 @@
 <h1>Edit Meal Plan</h1>
 
-<form action="/meal-plans/:id" method="post">
+<form action="/meal-plans/<%=@meal_plan.id%>" method="post">
   <input type="hidden" id="hidden" name="_method" value="patch">
 
   <h3>Meal Plan Name</h3>

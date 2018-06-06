@@ -38,7 +38,7 @@ describe "Meal Plan Controller" do
       expect(page).to have_field("Instruction")
     end
 
-    it 'creates a new instance of a meal plan then redirects a user to their profile' do
+    it 'creates a new instance of a meal plan then redirects a user to the meal plan view page' do
       visit "/users/profile/#{@user.slug}"
       click_link "Create New Meal Plan"
 
@@ -48,7 +48,8 @@ describe "Meal Plan Controller" do
       within(:css, '#dinner'){choose "#{@mac_n_cheese.id}"}
       click_button "Create"
 
-      expect(page.current_url).to include("/users/profile/#{@user.slug}")
+      expect(MealPlan.last.name).to eq("Noice Meal Plan")
+      expect(page.current_url).to include("/meal-plans/#{MealPlan.last.id}")
       expect(page.body).to include("Noice Meal Plan")
       expect(page).to have_link("Fruity Pebbles")
     end
@@ -72,17 +73,6 @@ describe "Meal Plan Controller" do
       expect(page.current_url).to include("/login")
     end
 
-    it "saves a meal plan with the default name if a name is not supplied" do
-      visit '/meal-plans/new'
-      within(:css, '#breakfast'){choose "#{@cereal.id}"}
-      within(:css, '#lunch'){choose "#{@cobb_salad.id}"}
-      within(:css, '#dinner'){choose "#{@mac_n_cheese.id}"}
-      click_button "Create"
-
-      expect(page.current_url).to include("/users/profile/#{@user.slug}")
-      expect(page.body).to include("Your Meal Plan")
-    end
-
     it 'can create a new recipe using a nested form' do
       visit '/meal-plans/new'
       fill_in(:plan_name, :with => "Noice Meal Plan")
@@ -93,7 +83,7 @@ describe "Meal Plan Controller" do
       fill_in(:dn_new_instruction, :with => "top dough with marinara, mozzarella, and pepperoni. bake")
       click_button "Create"
 
-      expect(page.current_url).to include("/users/profile/#{@user.slug}")
+      expect(page.current_url).to include("/meal-plans/#{MealPlan.last.id}")
       expect(page).to have_link("Pizza")
       expect(Recipe.last.name).to eq("Pizza")
     end
@@ -172,7 +162,7 @@ describe "Meal Plan Controller" do
     it 'sends a patch request to the controller' do
       expect(find("#hidden", :visible => false).value).to eq("patch")
     end
-    
+
     it 'edits a meal plan and redirects the user to the meal plan view page' do
       within(:css, '#dinner'){choose "#{@pizza.id}"}
       click_button "Save"
@@ -181,7 +171,7 @@ describe "Meal Plan Controller" do
       expect(page).to have_link("Fruity Pebbles")
       expect(page).to have_link("Cobb Salad")
       expect(page).to have_link("Pizza")
-      expect(@noice_mp.dinner).to eq(@pizza.id)
+      expect(MealPlan.find(@noice_mp.id).dinner).to eq(@pizza.id)
     end
   end
 end

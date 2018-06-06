@@ -27,25 +27,27 @@ class MealPlanController < AppController
   post '/meal-plans' do
     mp = MealPlan.new(name: params[:name], user_id: current_user.id)
     #breakfast
-    mp.breakfast = set_meal_field(to_url: '/meal-plans/new', meal:"breakfast")
+    mp.breakfast = set_meal_field(to_url ='/meal-plans/new', meal = "breakfast")
     #lunch
-    mp.lunch = set_meal_field(to_url: '/meal-plans/new', meal: "lunch")
+    mp.lunch = set_meal_field(to_url ='/meal-plans/new', meal = "lunch")
     #dinner
-    mp.dinner = set_meal_field(to_url: '/meal-plans/new', meal: "dinner")
+    mp.dinner = set_meal_field(to_url = '/meal-plans/new', meal = "dinner")
     mp.save
-    redirect "/users/profile/#{current_user.slug}"
+
+    redirect "/meal-plans/#{mp.id}"
   end
 
   patch '/meal-plans/:id' do
     mp = MealPlan.find(params[:id])
     #breakfast
-    mp.breakfast = set_meal_field(to_url: "/meal-plans/#{mp.id}/edit", meal: "breakfast")
+    mp.breakfast = set_meal_field(to_url = "/meal-plans/#{mp.id}/edit", meal = "breakfast")
     #lunch
-    mp.lunch = set_meal_field(to_url: "/meal-plans/#{mp.id}/edit", meal: "lunch")
+    mp.lunch = set_meal_field(to_url = "/meal-plans/#{mp.id}/edit", meal = "lunch")
     #dinner
-    mp.dinner = set_meal_field(to_url: "/meal-plans/#{mp.id}/edit", meal: "dinner")
+    mp.dinner = set_meal_field(to_url = "/meal-plans/#{mp.id}/edit", meal = "dinner")
     mp.save
-    redirect "/users/profile/#{current_user.slug}"
+
+    redirect "/meal-plans/#{mp.id}"
   end
 
   helpers do
