@@ -139,10 +139,11 @@ describe 'UserController' do
     end
 
     it 'cannot be accessed when a user is logged out' do
-      get 'logout'
+      visit 'logout'
 
-      get '/users/profile/test-queen'
-      expect(last_response.location).to include('/login')
+      visit '/users/profile/test-queen'
+      expect(page.current_url).to include('/login')
+      expect(page).to have_content("You must be logged in to view this content.")
     end
   end
 
@@ -152,6 +153,7 @@ describe 'UserController' do
       visit '/recipes' #=> set up to redirect to login if no user is currently logged in
 
       expect(page.current_url).to include('/login')
+      expect(page).to have_content("You must be logged in to view this content.")
     end
   end
 

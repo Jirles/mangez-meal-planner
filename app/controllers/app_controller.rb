@@ -24,11 +24,17 @@ class AppController < Sinatra::Base
     end
 
     def redirect_if_not_logged_in
-      redirect '/login' if !logged_in?
+      if !logged_in?
+        flash[:message] = "You must be logged in to view this content."
+        redirect '/login'
+      end
     end
 
     def owner_permissions_check(obj)
-      redirect '/recipes' if obj.user_id != current_user.id
+      if obj.user_id != current_user.id
+        flash[:message] = "You do not have permissions to view this content."
+        redirect '/recipes'
+      end
     end
 
     def access_check(obj)
