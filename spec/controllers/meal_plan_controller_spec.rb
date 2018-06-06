@@ -115,18 +115,16 @@ describe "Meal Plan Controller" do
   context "view meal plan page" do
     before do
       @noice_mp = MealPlan.create(:name => "Noice Meal Plan", :breakfast => @cereal.id, :lunch => @cobb_salad.id, :dinner => @mac_n_cheese.id, :user_id => @user.id)
+      visit "/meal-plans/#{@noice_mp.id}"
     end
 
-    it "shows a meal plan, its recipes as links" do
-      visit "/meal-plans/#{@noice_mp.id}"
-
+    it "shows a meal plan and its recipes" do
       expect(page.status_code).to eq(200)
       expect(page.body).to include("Noice Meal Plan")
-      expect(page).to have_link("Fruity Pebbles")
+      expect(page).to have_content("Fruity Pebbles")
     end
 
     it 'contains links to recipe show pages' do
-      visit "/meal-plans/#{@noice_mp.id}"
       click_link "Fruity Pebbles"
       expect(page.current_url).to include("/recipes/#{@noice_mp.breakfast}")
     end
@@ -149,6 +147,12 @@ describe "Meal Plan Controller" do
 
       expect(page.body).to include("Welcome, testking")
       expect(page.current_url).to include("/recipes")
+    end
+
+    it 'has an Edit button, a Shopping List button, and a Delete button' do
+      expect(page).to have_button("Edit")
+      expect(page).to have_button("Shopping List")
+      expect(page).to have_button("Delete")
     end
   end
 end

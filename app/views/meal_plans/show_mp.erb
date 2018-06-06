@@ -2,6 +2,9 @@
 
 
 <h3>Breakfast</h3>
+<form action="/meal-plans/<%=@meal_plan.id%>/shopping-list" method="get">
+  <button type="submit">Shopping List</button>
+</form>
 <ul>
   <li>
     <a href="/recipes/<%= @meal_plan.breakfast %>"><%= Recipe.find(@meal_plan.breakfast).name%></a>
@@ -22,3 +25,10 @@
     <a href="/recipes/<%= @meal_plan.dinner %>"><%= Recipe.find(@meal_plan.dinner).name%></a>
   </li>
 </ul>
+<form action="/meal-plans/<%=@meal_plan.id%>/edit" method="get">
+  <button type="submit">Edit</button>
+</form>
+<form action="/meal-plans/<%=@meal_plan.id%>/delete" method="post">
+  <input type="hidden" id="hidden" name="_method" value="delete">
+  <button type="submit">Delete</button>
+</form>
