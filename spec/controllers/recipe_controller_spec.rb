@@ -91,20 +91,23 @@ describe "Recipe Controller" do
     end
 
     it 'shows the edit and delete options if a user has owner permissions' do
-      visit "/recipes/#{@recipe.id}"
       expect(page).to have_button('Edit')
       expect(page).to have_button('Delete')
     end
 
     it 'does not show edit and delete buttons if a user does not have owner permissions' do
+      visit '/logout'
+
       User.create(:username => "testking", :email => "long_live_the_king@test.com", :password => "testingtesting")
-      params = {:username => "testking", :password => "testingtesting"}
-      get '/logout'
+      visit '/login'
+      fill_in(:username, :with => "testking")
+      fill_in(:password, :with => "testingtesting")
+      click_button "Log In"
 
-      post '/login', params
-      get "/recipes/#{@recipe.id}"
+      visit "/recipes/#{@recipe.id}"
 
-      expect(last_response.body).not_to include("</button>")
+      expect(page).not_to have_button("Edit")
+      expect(page).not_to have_button("Delete")
     end
   end
 
@@ -112,17 +115,17 @@ describe "Recipe Controller" do
     before do
       @user = User.create(:username => "testking", :email => "long_live_the_king@test.com", :password => "testingtesting")
       @recipe = Recipe.create(:name => "PB&J", :ingredients => "peanut butter, jelly, bread", :instruction => "spread peanut butter and jelly on bread", :user_id => @user.id)
-      params = {:username => "testking", :password => "testingtesting"}
-
-      post '/login', params
+      visit '/login'
+      fill_in(:username, :with => "testking")
+      fill_in(:password, :with => "testingtesting")
+      click_button "Log In"
+      visit "/recipes/#{@recipe.id}/edit"
     end
 
     it 'contains a pre-filled form with recipe information' do
-      get "/recipes/#{@recipe.id}/edit"
-
-      expect(last_response.body).to include("</form>")
-      expect(last_response.body).to include('value="PB&J"')
-      expect(last_response.body).to include('value="peanut butter, jelly, bread"')
+      expect(page.body).to include("</form>")
+      expect(page.body).to include('value="PB&J"')
+      expect(page.body).to include('value="peanut butter, jelly, bread"')
     end
 
     it 'allows a user to edit a recipe and save changes and takes them to the view recipe page' do
