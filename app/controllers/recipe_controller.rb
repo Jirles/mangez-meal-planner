@@ -25,7 +25,7 @@ class RecipeController < AppController
 
   get '/recipes/:id/edit' do
     @recipe = Recipe.find(params[:id])
-    access_check(@recipe)
+    access_check(@recipe.user_id)
 
     erb :'recipes/edit_recipe'
   end
@@ -58,7 +58,7 @@ class RecipeController < AppController
 
   delete '/recipes/:id/delete' do
     @recipe = Recipe.find(params[:id])
-    access_check(@recipe)
+    access_check(@recipe.user_id)
 
     @recipe.destroy
 
