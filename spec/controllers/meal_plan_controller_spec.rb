@@ -72,6 +72,7 @@ describe "Meal Plan Controller" do
 
       visit '/meal-plans/new'
       expect(page.current_url).to include("/login")
+      expect(page).to have_content("You must be logged in to view this content.")
     end
 
     it 'can create a new recipe using a nested form' do
@@ -126,6 +127,7 @@ describe "Meal Plan Controller" do
 
       visit "/recipes/#{@noice_mp.id}"
       expect(page.current_url).to include("/login")
+      expect(page).to have_content("You must be logged in to view this content.")
     end
 
     it "does not let a user visit unless they have owner permissions" do
@@ -206,6 +208,7 @@ describe "Meal Plan Controller" do
       visit "/meal-plans/#{@noice_mp.id}/edit"
 
       expect(page.current_url).to include("/login")
+      expect(page).to have_content("You must be logged in to view this content.")
     end
 
     it "does not let a user visit unless they have owner permissions" do
