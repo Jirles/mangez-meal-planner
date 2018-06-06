@@ -44,10 +44,9 @@ class UserController < AppController
   end
 
   get '/users/profile/:slug' do
-    redirect_if_not_logged_in
-    redirect '/recipes' if current_user.slug != params[:slug]
-
     @user = User.find_by_slug(params[:slug])
+    access_check(@user.id)
+
     erb :'/users/show'
   end
 

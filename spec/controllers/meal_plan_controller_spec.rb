@@ -250,6 +250,7 @@ describe "Meal Plan Controller" do
       visit "/meal-plans/#{@noice_mp.id}/shopping-list"
 
       expect(page.current_url).to include("/login")
+      expect(page).to have_content("You must be logged in to view this content.")
     end
 
     it 'cannot be accessed if the user does not have owner permissions' do

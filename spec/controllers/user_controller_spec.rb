@@ -128,14 +128,20 @@ describe 'UserController' do
     end
 
     it 'only allows the current_user to access their profile' do
-      get 'logout'
+      visit 'logout'
       params = {:username => "testking", :email => "long_live_the_king@test.com", :password => "testingtesting"}
-      post '/signup', params
+      visit '/signup'
+      fill_in(:username, :with => "testking")
+      fill_in(:email, :with => "long_live_the_king@test.com")
+      fill_in(:password, :with => "testingtesting")
+      click_button "Submit"
 
-      get '/users/profile'
-      expect(last_response.location).to include("/profile/testking")
-      get '/users/profile/test-queen'
-      expect(last_response.location).to include("/recipes")
+      visit '/users/profile'
+      expect(page.current_url).to include("/profile/testking")
+
+      visit '/users/profile/test-queen'
+      expect(page.current_url).to include("/recipes")
+      expect(page).to have_content("You do not have permissions to view this content.")
     end
 
     it 'cannot be accessed when a user is logged out' do

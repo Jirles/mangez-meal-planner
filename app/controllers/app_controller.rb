@@ -30,16 +30,16 @@ class AppController < Sinatra::Base
       end
     end
 
-    def owner_permissions_check(obj)
-      if obj.user_id != current_user.id
+    def owner_permissions_check(user_id)
+      if user_id != current_user.id
         flash[:message] = "You do not have permissions to view this content."
         redirect '/recipes'
       end
     end
 
-    def access_check(obj)
+    def access_check(user_id)
       redirect_if_not_logged_in
-      owner_permissions_check(obj)
+      owner_permissions_check(user_id)
     end
 
     def valid_recipe_submission?(params)
