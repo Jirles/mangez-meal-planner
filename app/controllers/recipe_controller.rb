@@ -42,12 +42,12 @@ class RecipeController < AppController
   end
 
   patch '/recipes/:id' do
+    recipe = Recipe.find(params[:id])
     if !valid_recipe_submission?
       flash[:message] = "Please fill in all fields."
-      redirect '/recipes/new'
+      redirect "/recipes/#{recipe.id}/edit"
     end
 
-    recipe = Recipe.find(params[:id])
     recipe.name = params[:name]
     recipe.ingredients = params[:ingredients]
     recipe.instruction = params[:instruction]

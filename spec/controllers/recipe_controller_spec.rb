@@ -174,6 +174,25 @@ describe "Recipe Controller" do
       visit "/recipes/#{@recipe.id}/edit"
       expect(page.current_url).to include('/recipes')
     end
+
+    it 'redirects the user to the edit recipe page if the data submitted was invalid' do
+      params = {
+        :username => "testking",
+        :password => "testingtesting"
+      }
+      post '/login', params
+
+      params = {
+        :name => "PB&J",
+        :ingredients => "peanut butter, jelly, bread"
+      }
+      patch "/recipes/#{@recipe.id}", params
+
+      expect(last_response.status).to eq(302)
+      follow_redirect!
+      expect(last_response.body).to include("Please fill in all fields.")
+    end
+
   end
 
   context "delete recipe action" do
