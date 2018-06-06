@@ -72,19 +72,14 @@ describe "Meal Plan Controller" do
     end
 
     it "saves a meal plan with the default name if a name is not supplied" do
-      params = {
-        :breakfast => @cereal.id,
-        :lunch => @mac_n_cheese.id,
-        :dinner => @cobb_salad.id,
-        :user_id => @user.id
-      }
-      post '/meal-plans', params
+      visit '/meal-plans/new'
+      within(:css, '#breakfast'){choose "#{@cereal.id}"}
+      within(:css, '#lunch'){choose "#{@cobb_salad.id}"}
+      within(:css, '#dinner'){choose "#{@mac_n_cheese.id}"}
+      click_button "Create"
 
-      expect(last_response.status).to eq(302)
-      follow_redirect!
-
-      expect(last_response.body).to include("Your Meal Plan")
-      expect(MealPlan.last.name).to eq("Your Meal Plan")
+      expect(page.current_url).to include("/users/profile/#{@user.slug}")
+      expect(page.body).to include("Your Meal Plan")
     end
   end
 
@@ -99,7 +94,7 @@ describe "Meal Plan Controller" do
       })
     end
 
-    it "shows an individual recipe and its details" do
+    xit "shows an individual recipe and its details" do
       get "/meal-plans/#{@noice_mp.id}"
 
       expect(last_response.status).to eq(200)
@@ -107,7 +102,7 @@ describe "Meal Plan Controller" do
       expect(last_response.body).to have_link("Fruity Pebbles")
     end
 
-    it "does not let a user visit unless they are logged in" do
+    xit "does not let a user visit unless they are logged in" do
       get '/logout'
 
       get "/recipes/#{@noice_mp.id}"
@@ -116,7 +111,7 @@ describe "Meal Plan Controller" do
       expect(last_response.body).to include("Welcome back")
     end
 
-    it "does not let a user visit unless they have owner permissions" do
+    xit "does not let a user visit unless they have owner permissions" do
       get '/logout'
       User.create(:username => "testking", :email => "long_live_the_king@test.com", :password => "testingtesting")
       params = {:username => "testking", :password => "testingtesting"}
