@@ -41,7 +41,7 @@ describe 'UserController' do
        expect(User.find_by(email: "different_king@test.com")).to be_nil
      end
 
-     it 'cannot be viewed by a user who has already signed in' do
+     it 'cannot be viewed by a user who has already logged in' do
        fill_in(:username, :with => "testqueen")
        fill_in(:email, :with => "all_hail@test.com")
        fill_in(:password, :with => "testytest")
@@ -70,11 +70,12 @@ describe 'UserController' do
     end
 
     it 'redirects a user to the recipes index after log in' do
-      params = {:username => "testking", :password => "testingtesting"}
-      post '/login', params
+      visit '/login'
+      fill_in(:username, :with => "testking")
+      fill_in(:password, :with => "testingtesting")
+      click_button "Log In"
 
-      get '/recipes'
-      expect(last_response.location).to include("/recipes")
+      expect(page.current_url).to include("/recipes")
     end
   end
 

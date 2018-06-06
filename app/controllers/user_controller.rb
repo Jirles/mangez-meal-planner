@@ -1,6 +1,7 @@
 class UserController < AppController
 
   get '/signup' do
+    redirect_if_logged_in
     erb :'users/signup'
   end
 
@@ -15,6 +16,7 @@ class UserController < AppController
   end
 
   get '/login' do
+    redirect_if_logged_in
     erb :'users/login'
   end
 
@@ -44,6 +46,12 @@ class UserController < AppController
   get '/logout' do
     session.clear
     redirect '/'
+  end
+
+  helpers do
+    def redirect_if_logged_in
+      redirect "/recipes" if logged_in?
+    end
   end
 
 end
