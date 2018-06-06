@@ -5,7 +5,14 @@ button {
 }
 
 /* input styling */
+input[type="text"] {
+  display: block;
+  margin: 0 0 20px;
+}
 
+input[type="radio"] {
+  display: inline;
+}
 /* navbar styling */
 #navbar ul {
   list-style-type: none;

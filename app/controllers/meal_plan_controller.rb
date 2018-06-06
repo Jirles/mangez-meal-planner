@@ -57,7 +57,7 @@ class MealPlanController < AppController
 
     def set_meal_field(to_url, meal)
       nested_hash_key = meal + "_new"
-      if params[meal]
+      if params[meal] && !params[meal].empty?
         return params[meal]
       else
         valid_new_recipe?(to_url, nested_hash_key)
