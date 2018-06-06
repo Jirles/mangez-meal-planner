@@ -53,10 +53,10 @@ describe "Meal Plan Controller" do
     end
 
     it "does not a user access the page unless they are logged in" do
-      get '/logout'
+      visit '/logout'
 
-      get '/meal-plans/new'
-      expect(last_response.location).to include("/login")
+      visit '/meal-plans/new'
+      expect(page.current_url).to include("/login")
     end
 
     it "saves a meal plan with the default name if a name is not supplied" do

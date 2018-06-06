@@ -17,14 +17,13 @@ class MealPlanController < AppController
   end
 
   post '/meal-plans' do
-    binding.pry
     mp = MealPlan.new(name: params[:name], user_id: current_user.id)
     #breakfast
-    mp.breakfast = set_meal_field(breakfast)
+    mp.breakfast = set_meal_field("breakfast")
     #lunch
-    mp.lunch = set_meal_field(lunch)
+    mp.lunch = set_meal_field("lunch")
     #dinner
-    mp.dinner = set_meal_field(dinner)
+    mp.dinner = set_meal_field("dinner")
     mp.save
     redirect "/users/profile/#{current_user.slug}"
   end
