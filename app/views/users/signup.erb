@@ -1,7 +1,3 @@
-<% if flash.has?(:message) %>
-  <%= flash[:message] %>
-<% end %>
-
 <h1>We're exited you're joining us!</h1>
 <p>Signup by filling out the form below</p>
 
@@ -21,3 +17,6 @@
 
   <button type="submit">Submit</button>
 </form>
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>

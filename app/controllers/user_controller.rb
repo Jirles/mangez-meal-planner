@@ -11,6 +11,11 @@ class UserController < AppController
       session[:user_id] = user.id
       redirect '/recipes'
     else
+      if params.values.any? {|v| v.empty? }
+        flash[:message] = "Please fill out all fields."
+      else
+        flash[:message] = "That username is already taken. Please pick another."
+      end 
       redirect '/signup'
     end
   end
@@ -26,6 +31,7 @@ class UserController < AppController
       session[:user_id] = user.id
       redirect '/recipes'
     else
+      flash[:message] = "Username or password incorrect. Please try again."
       redirect '/login'
     end
   end

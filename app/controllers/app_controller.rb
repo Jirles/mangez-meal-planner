@@ -1,9 +1,12 @@
+require 'rack-flash'
+
 class AppController < Sinatra::Base
   configure do
     set :views, 'app/views'
     set :public_folder, 'public'
     enable :sessions
     set :session_secret, 'bonappetit!'
+    use Rack::Flash, :sweep => true
   end
 
   get '/' do
