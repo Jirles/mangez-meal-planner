@@ -46,7 +46,11 @@ describe "Meal Plan Controller" do
       within(:css, '#breakfast'){choose "#{@cereal.id}"}
       within(:css, '#lunch'){choose "#{@cobb_salad.id}"}
       within(:css, '#dinner'){choose "#{@mac_n_cheese.id}"}
-      
+      click_button "Create"
+
+      expect(page.current_url).to include("/users/profile/#{@user.slug}")
+      expect(page.body).to include("Noice Meal Plan")
+      expect(page).to have_link("Fruity Pebbles")
     end
 
     it "does not a user access the page unless they are logged in" do
