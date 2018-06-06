@@ -14,10 +14,11 @@ describe "Recipe Controller" do
     end
 
     it "users can only visit the index page if they are already logged in" do
-      get '/logout'
+      visit '/logout'
 
-      get '/recipes'
-      expect(last_response.location).to include("/login")
+      visit '/recipes'
+      expect(page.current_url).to include("/login")
+      expect(page).to have_content("You must be logged in to view this content.")
     end
 
     it "displays recipes to the user as links" do
@@ -100,12 +101,12 @@ describe "Recipe Controller" do
     end
 
     it "does not let a user visit unless they are logged in" do
-      get '/logout'
+      visit '/logout'
 
-      get "/recipes/#{@recipe.id}"
-      expect(last_response.status).to eq(302)
-      follow_redirect!
-      expect(last_response.body).to include("Welcome back")
+      visit "/recipes/#{@recipe.id}"
+
+      expect(page.current_url).to include("/login")
+      expect(page).to have_content("You must be logged in to view this content.")
     end
 
     it 'shows the edit and delete options if a user has owner permissions' do
@@ -159,7 +160,7 @@ describe "Recipe Controller" do
 
       visit "/recipes/#{@recipe.id}/edit"
       expect(page.current_url).to include("/login")
-      expect(page.body).to include("Welcome back")
+      expect(page).to have_content("You must be logged in to view this content.")
     end
 
     it "does not allow a user to view the page if they do not have owner permissions" do
@@ -219,7 +220,9 @@ describe "Recipe Controller" do
 
       delete "/recipes/#{@recipe.id}/delete"
 
-      expect(last_response.location).to include("/login")
+      expect(last_response.status).to eq(302)
+      follow_redirect!
+      expect(last_response.body).to include("You must be logged in to view this content.")
       expect(Recipe.find(@recipe.id)).to eq(@recipe)
     end
 
