@@ -38,7 +38,7 @@ class MealPlanController < AppController
       if params[meal]
         return params[meal]
       else
-        valid_new_recipe?
+        valid_new_recipe?(nested_hash_key)
         params[nested_hash_key][:user_id] = current_user.id
         Recipe.create(params[nested_hash_key]).id
       end

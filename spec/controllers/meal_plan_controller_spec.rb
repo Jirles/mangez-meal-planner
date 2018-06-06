@@ -52,6 +52,18 @@ describe "Meal Plan Controller" do
       expect(page).to have_link("Fruity Pebbles")
     end
 
+    it 'redirects the user to /meal-plans/new if a field is left empty' do
+      visit '/meal-plans/new'
+
+      fill_in(:plan_name, :with => "Noice Meal Plan")
+      within(:css, '#breakfast'){choose "#{@cereal.id}"}
+      within(:css, '#dinner'){choose "#{@mac_n_cheese.id}"}
+      click_button "Create"
+
+      expect(page.current_url).to include("/meal-plans/new")
+      expect(MealPlan.all.count).to eq(0)
+    end
+
     it "does not a user access the page unless they are logged in" do
       visit '/logout'
 
