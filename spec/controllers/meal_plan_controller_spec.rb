@@ -216,4 +216,18 @@ describe "Meal Plan Controller" do
       expect(page.current_url).to include("/recipes")
     end
   end
+
+  context "shopping list generator" do
+    before do
+      @noice_mp = MealPlan.create(:name => "Noice Meal Plan", :breakfast => @cereal.id, :lunch => @cobb_salad.id, :dinner => @mac_n_cheese.id, :user_id => @user.id)
+    end
+    it 'displays a shopping list with all of the ingredients associated with recipes' do
+      visit "/meal-plans/#{@noice_mp.id}/shopping-list"
+
+      expect(page.body).to have_content("#{@noice_mp.name} Shopping List")
+      expect(page.body).to have_content("Lunch: #{Recipe.find(@noice_mp.lunch).name}")
+      expect(page.body).to have_content("lettuce greens")
+      expect(page.body).to have_content("dressing of choice")
+    end
+  end
 end
