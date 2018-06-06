@@ -158,12 +158,13 @@ describe "Meal Plan Controller" do
 
   context "edit meal plan page" do
     before do
+      @noice_mp = MealPlan.create(:name => "Noice Meal Plan", :breakfast => @cereal.id, :lunch => @cobb_salad.id, :dinner => @mac_n_cheese.id, :user_id => @user.id)
       visit "/meal-plans/#{@noice_mp.id}/edit"
     end
     it "has a form with pre-checked radio buttons" do
       expect(page).to have_selector("form")
-      expect(page.body).to have_checked_field("Fruity Pebbles")
-      expect(page.body).to have_checked_field("Cobb Salad")
+      expect(page).to have_checked_field("#{@cereal.id}")
+      expect(page).to have_checked_field("#{@cobb_salad.id}")
     end
   end
 end

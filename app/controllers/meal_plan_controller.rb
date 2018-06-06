@@ -13,7 +13,15 @@ class MealPlanController < AppController
     @meal_plan = MealPlan.find(params[:id])
     access_check(@meal_plan)
 
-    erb :'/meal_plans/show_mp'
+    erb :'meal_plans/show_mp'
+  end
+
+  get '/meal-plans/:id/edit' do
+    @meal_plan = MealPlan.find(params[:id])
+    access_check(@meal_plan)
+    @user = current_user
+
+    erb :'meal_plans/edit_mp'
   end
 
   post '/meal-plans' do

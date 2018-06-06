@@ -1,15 +1,18 @@
-<h1>Create a Meal Plan</h1>
+<h1>Edit Meal Plan</h1>
 
-<form action="/meal-plans" method="post">
+<form action="/meal-plans/:id" method="post">
+  <input type="hidden" id="hidden" name="_method" value="patch">
+
   <h3>Meal Plan Name</h3>
-  <input type="text" id="plan_name" name="name" value="Your Meal Plan" required/>
+  <input type="text" id="plan_name" name="name" value="<%=@meal_plan.name%>" required/>
 
   <h3>Breakfast</h3>
   <section id="breakfast">
     <h4>Choose a recipe</h4>
       <% @user.recipes.each do |recipe| %>
-        <input type="radio" name="breakfast" id="<%= recipe.id %>" value="<%= recipe.id %>" ><%=recipe.name%><br>
+        <input type="radio" name="breakfast" id="<%= recipe.id %>" value="<%= recipe.id %>" <%= "checked" if recipe.id == @meal_plan.breakfast %> /><%=recipe.name%><br>
       <% end %>
+      <input type="radio" id="none">Create New
     <h4>or create a new one</h4>
     <label for="br_new_name">Name</label>
     <abbr title="required">*</abbr>
@@ -29,8 +32,9 @@
   <section id="lunch">
     <h4>Choose a recipe</h4>
       <% @user.recipes.each do |recipe| %>
-        <input type="radio" name="lunch" id="<%= recipe.id %>" value="<%= recipe.id %>" ><%=recipe.name%><br>
+        <input type="radio" name="lunch" id="<%= recipe.id %>" value="<%= recipe.id %>" <%="checked" if recipe.id == @meal_plan.lunch%> ><%=recipe.name%><br>
       <% end %>
+      <input type="radio" id="none">Create New
     <h4>or create a new one</h4>
     <label for="ln_new_name">Name</label>
     <abbr title="required">*</abbr>
@@ -49,8 +53,9 @@
   <section id="dinner">
     <h4>Choose a recipe</h4>
       <% @user.recipes.each do |recipe| %>
-        <input type="radio" name="dinner" id="<%= recipe.id %>" value="<%= recipe.id %>" ><%=recipe.name%><br>
+        <input type="radio" name="dinner" id="<%= recipe.id %>" value="<%= recipe.id %>" <%= "checked" if recipe.id == @meal_plan.dinner%>><%=recipe.name%><br>
       <% end %>
+      <input type="radio" id="none">Create New
     <h4>or create a new one</h4>
     <label for="dn_new_name">Name</label>
     <abbr title="required">*</abbr>
