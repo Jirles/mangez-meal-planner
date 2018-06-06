@@ -173,5 +173,33 @@ describe "Meal Plan Controller" do
       expect(page).to have_link("Pizza")
       expect(MealPlan.find(@noice_mp.id).dinner).to eq(@pizza.id)
     end
+
+    it 'can create a new recipe using a nested form' do
+
+      within(:css, '#breakfast'){choose "#{@cereal.id}"}
+      within(:css, '#lunch'){choose "create_new"}
+      fill_in(:ln_new_name, :with => "Pizza")
+      fill_in(:ln_new_ingredients, :with => "dough, marinara, mozzarella, pepperoni")
+      fill_in(:ln_new_instruction, :with => "top dough with marinara, mozzarella, and pepperoni. bake")
+      within(:css, '#dinner'){choose "#{@cobb_salad.id}"}
+      click_button "Create"
+
+      expect(page.current_url).to include("/meal-plans/#{MealPlan.last.id}")
+      expect(page).to have_link("Pizza")
+      expect(Recipe.last.name).to eq("Pizza")
+    end
+
+    it 'will not make a new recipe if a field is missing' do
+      visit '/meal-plans/new'
+      fill_in(:plan_name, :with => "Noice Meal Plan")
+      within(:css, '#breakfast'){choose "#{@cereal.id}"}
+      within(:css, '#lunch'){choose "#{@cobb_salad.id}"}
+      fill_in(:dn_new_name, :with => "Pizza")
+      fill_in(:dn_new_ingredients, :with => "dough, marinara, mozzarella, pepperoni")
+      click_button "Create"
+
+      expect(page.current_url).to include("/meal-plans/new")
+      expect(MealPlan.all.count).to eq(0)
+    end
   end
 end
