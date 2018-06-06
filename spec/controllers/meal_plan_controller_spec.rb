@@ -125,6 +125,12 @@ describe "Meal Plan Controller" do
       expect(page).to have_link("Fruity Pebbles")
     end
 
+    it 'contains links to recipe show pages' do
+      visit "/meal-plans/#{@noice_mp.id}"
+      click_link "Fruity Pebbles"
+      expect(page.current_url).to include("/recipes/#{@noice_mp.breakfast}")
+    end
+
     it "does not let a user visit unless they are logged in" do
       visit '/logout'
 
