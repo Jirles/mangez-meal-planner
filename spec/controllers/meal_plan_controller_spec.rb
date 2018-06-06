@@ -189,17 +189,31 @@ describe "Meal Plan Controller" do
     end
 
     it 'will not make a new recipe if a field is missing' do
-      visit '/meal-plans/new'
-      fill_in(:plan_name, :with => "Amazing Meal Plan")
       within(:css, '#breakfast'){choose "#{@cereal.id}"}
-      within(:css, '#lunch'){choose "#{@cobb_salad.id}"}
-      within(:css, '#dinner'){choose "create-new"}
-      fill_in(:dn_new_name, :with => "Pizza")
-      fill_in(:dn_new_ingredients, :with => "dough, marinara, mozzarella, pepperoni")
+      within(:css, '#lunch'){choose "#{@mac_n_cheese.id}"}
+      within(:css, '#dinner'){choose "create-new-dinner"}
       click_button "Save"
 
-      expect(page.current_url).to include("/meal-plans/new")
-      expect(MealPlan.count).to eq(1)
+      expect(page.current_url).to include("/meal-plans/#{@noice_mp.id}/edit")
+    end
+
+    it 'cannot be visited if a user is logged out' do
+      visit '/logout'
+      visit "/meal-plans/#{@noice_mp.id}/edit"
+
+      expect(page.current_url).to include("/login")
+    end
+
+    it "does not let a user visit unless they have owner permissions" do
+      visit '/logout'
+      User.create(:username => "testking", :email => "long_live_the_king@test.com", :password => "testingtesting")
+      visit '/login'
+      fill_in(:username, :with => "testking")
+      fill_in(:password, :with => "testingtesting")
+      click_button "Log In"
+      visit "/meal-plans/#{@noice_mp.id}/edit"
+
+      expect(page.current_url).to include("/recipes")
     end
   end
 end
