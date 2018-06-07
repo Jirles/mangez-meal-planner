@@ -12,6 +12,9 @@ class MealPlanController < AppController
   get '/meal-plans/:id' do
     @meal_plan = MealPlan.find(params[:id])
     access_check(@meal_plan.user_id)
+    @breakfast = find_recipe(@meal_plan.breakfast)
+    @lunch = find_recipe(@meal_plan.lunch)
+    @dinner = find_recipe(@meal_plan.dinner)
 
     erb :'meal_plans/show_mp'
   end
@@ -28,9 +31,9 @@ class MealPlanController < AppController
     @meal_plan = MealPlan.find(params[:id])
     access_check(@meal_plan.user_id)
 
-    @breakfast = Recipe.find(@meal_plan.breakfast)
-    @lunch = Recipe.find(@meal_plan.lunch)
-    @dinner = Recipe.find(@meal_plan.dinner)
+    @breakfast = find_recipe(@meal_plan.breakfast)
+    @lunch = find_recipe(@meal_plan.lunch)
+    @dinner = find_recipe(@meal_plan.dinner)
 
     erb :'/meal_plans/shopping_list'
   end
@@ -74,6 +77,14 @@ class MealPlanController < AppController
       else
         params[nested_hash_key][:user_id] = current_user.id
         Recipe.create(params[nested_hash_key]).id
+      end
+    end
+
+    def find_recipe(id)
+      begin
+        Recipe.find(id)
+      rescue
+        "Recipe not found"
       end
     end
 

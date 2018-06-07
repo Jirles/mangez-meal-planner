@@ -6,7 +6,13 @@
 <h3>Breakfast</h3>
 <ul>
   <li>
-    <a href="/recipes/<%= @meal_plan.breakfast %>"><%= Recipe.find(@meal_plan.breakfast).name%></a>
+    <% if @breakfast.instance_of? String %>
+      <%= @breakfast %>
+    <% else %>
+      <a href="/recipes/<%= @breakfast.id %>">
+        <%= @breakfast.name%>
+      </a>
+    <% end %>
   </li>
 </ul>
 
@@ -14,14 +20,26 @@
 <h3>Lunch</h3>
 <ul>
   <li>
-    <a href="/recipes/<%= @meal_plan.lunch %>"><%= Recipe.find(@meal_plan.lunch).name%></a>
+    <% if @lunch.instance_of? String %>
+      <%= @lunch %>
+    <% else %>
+      <a href="/recipes/<%= @lunch.id %>">
+        <%= @lunch.name%>
+      </a>
+    <% end %>
   </li>
 </ul>
 
 <h3>Dinner</h3>
 <ul>
   <li>
-    <a href="/recipes/<%= @meal_plan.dinner %>"><%= Recipe.find(@meal_plan.dinner).name%></a>
+    <% if @dinner.instance_of? String %>
+      <%= @dinner %>
+    <% else %>
+      <a href="/recipes/<%= @dinner.id %>">
+        <%= @dinner.name%>
+      </a>
+    <% end %>
   </li>
 </ul>
 <form action="/meal-plans/<%=@meal_plan.id%>/edit" method="get">

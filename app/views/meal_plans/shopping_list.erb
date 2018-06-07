@@ -1,22 +1,28 @@
 <h1><%= @meal_plan.name %> Shopping List</h1>
 
-<h3>Breakfast: <%= @breakfast.name %></h3>
-<ul>
-  <% @breakfast.ingredients.split(", ").each do |ingredient| %>
-  <li><%= ingredient %></li>
-  <% end %>
-</ul>
+<% if @breakfast.instance_of? Recipe %>
+  <h3>Breakfast: <%= @breakfast.name %></h3>
+  <ul>
+    <% @breakfast.ingredients.split(", ").each do |ingredient| %>
+    <li><%= ingredient %></li>
+    <% end %>
+  </ul>
+<% end %>
 
-<h3>Lunch: <%= @lunch.name %></h3>
-<ul>
-  <% @lunch.ingredients.split(", ").each do |ingredient| %>
-  <li><%= ingredient %></li>
-  <% end %>
-</ul>
+<% if @lunch.instance_of? Recipe %>
+  <h3>Lunch: <%= @lunch.name %></h3>
+  <ul>
+    <% @lunch.ingredients.split(", ").each do |ingredient| %>
+    <li><%= ingredient %></li>
+    <% end %>
+  </ul>
+<% end %>
 
+<% if @dinner.instance_of? Recipe %>
 <h3>Dinner: <%= @dinner.name %></h3>
 <ul>
   <% @dinner.ingredients.split(", ").each do |ingredient| %>
   <li><%= ingredient %></li>
   <% end %>
 </ul>
+<% end %>
