@@ -267,4 +267,48 @@ describe "Meal Plan Controller" do
       expect(page).to have_content("You do not have permissions to view this content.")
     end
   end
+  context "delete recipe action" do
+    before do
+      @noice_mp = MealPlan.create(:name => "Noice Meal Plan", :breakfast => @cereal.id, :lunch => @cobb_salad.id, :dinner => @mac_n_cheese.id, :user_id => @user.id)
+    end
+
+    it "deletes a recipe and returns the user to the recipe index" do
+      visit "/meal-plans/#{@noice_mp.id}"
+      click_button "Delete"
+
+      expect(page.current_url).to include("/users/profile/#{@user.slug}")
+      expect(page).not_to have_link("Noice Meal Plan")
+      expect{MealPlan.find(@noice_mp.id)}.to raise_error{ |error| expect(error).to be_a(ActiveRecord::RecordNotFound) }
+    end
+
+    it 'does not allow a user to delete a recipe if they are not logged in, redirects them to login page' do
+      visit '/logout'
+
+      delete "/meal-plans/#{@noice_mp.id}/delete"
+
+      expect(last_response.status).to eq(302)
+      follow_redirect!
+      expect(last_response.body).to include("You must be logged in to view this content.")
+      expect(MealPlan.find(@noice_mp.id)).to eq(@noice_mp)
+    end
+
+    it 'does not allow a user to delete a recipe to which they do not have owner permissions' do
+      visit '/logout'
+
+      @user = User.create(:username => "testking", :email => "all_hail_the_king@test.com", :password => "secret")
+      visit '/login'
+      params = {
+        :username => "testking",
+        :password => "secret"
+      }
+      post '/login', params
+
+      delete "/meal-plans/#{@noice_mp.id}/delete"
+
+      expect(last_response.status).to eq(302)
+      follow_redirect!
+      expect(MealPlan.find(@noice_mp.id)).to eq(@noice_mp)
+    end
+
+  end
 end
