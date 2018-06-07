@@ -4,6 +4,12 @@ button {
   background: #ddd;
 }
 
+/* img styling */
+
+img {
+  max-width: 100%;
+}
+
 /* input styling */
 input.text-field-input {
   display: block;
@@ -51,8 +57,8 @@ input[type="radio"] {
   line-height: 0;
 }
 
-/* footer styling */
-footer h5 {
+/* footer, figcaption styling */
+footer h5, figcaption {
   text-align: right;
   color: #4d4e4f;
 }
