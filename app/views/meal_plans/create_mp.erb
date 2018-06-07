@@ -2,7 +2,7 @@
 
 <form action="/meal-plans" method="post">
   <h3>Meal Plan Name</h3>
-  <input type="text" id="plan_name" name="name" value="Your Meal Plan" required/>
+  <input type="text" class="text-field-input" id="plan_name" name="name" value="Your Meal Plan" required/>
 
   <h3>Breakfast</h3>
   <section id="breakfast">
@@ -11,8 +11,8 @@
         <label for="<%= recipe.id %>"><%=recipe.name%></label>
         <input type="radio" name="breakfast" id="<%= recipe.id %>" value="<%= recipe.id %>" >
       <% end %>
-    <label for="create-new-breakfast"><strong>Or create a new one</strong></label>
-    <input type="radio" id="create-new-breakfast" name="breakfast" value="<%= nil %>">
+    <label class="create-new" for="create-new-breakfast"><strong>Or create a new one</strong></label>
+    <input type="radio" class="create-new" id="create-new-breakfast" name="breakfast" value="<%= nil %>">
 
     <!-- Begin new breakfast recipe form fields -->
     <label for="br_new_name">Name</label>
@@ -36,8 +36,8 @@
         <label for="<%= recipe.id %>"><%=recipe.name%></label>
         <input type="radio" name="lunch" id="<%= recipe.id %>" value="<%= recipe.id %>" >
       <% end %>
-    <label for="create-new-lunch"><strong>Or create a new one</strong></label>
-    <input type="radio" id="create-new-lunch" name="lunch" value="<%= nil %>" >
+    <label class="create-new" for="create-new-lunch"><strong>Or create a new one</strong></label>
+    <input type="radio" class="create-new" id="create-new-lunch" name="lunch" value="<%= nil %>" >
 
     <!-- Begin new lunch recipe form fields -->
     <label for="ln_new_name">Name</label>
@@ -61,8 +61,8 @@
         <label for="<%= recipe.id %>"><%=recipe.name%></label>
         <input type="radio" name="dinner" id="<%= recipe.id %>" value="<%= recipe.id %>" >
       <% end %>
-    <label for="create-new-dinner"><strong>Or create a new one</strong></label>
-    <input type="radio" id="create-new-dinner" name="dinner" value="<%= nil %>" >
+    <label class="create-new" for="create-new-dinner"><strong>Or create a new one</strong></label>
+    <input type="radio" class="create-new" id="create-new-dinner" name="dinner" value="<%= nil %>" >
 
     <!-- Begin new dinner recipe form fields -->
     <label for="dn_new_name">Name</label>
