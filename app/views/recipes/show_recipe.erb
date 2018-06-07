@@ -19,4 +19,11 @@
     <input type="hidden" id="hidden"  name="_method" value="delete"/>
     <button type="submit">Delete</button>
   </form>
+<% else %>
+<form action="/recipes" method="post">
+  <input type="hidden" id="name" name="name" value="<%=@recipe.name%>" />
+  <input type="hidden" id="ingredients" name="ingredients" value="<%=@recipe.ingredients%>" />
+  <input type="hitten" id="instruction" name="instruction" value="<%=@recipe.instruction%>" />
+  <button type="submit">Add to my Recipes</button>
+</form>
 <% end %>

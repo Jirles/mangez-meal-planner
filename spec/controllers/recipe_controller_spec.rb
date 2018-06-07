@@ -128,6 +128,24 @@ describe "Recipe Controller" do
       expect(page).not_to have_button("Edit")
       expect(page).not_to have_button("Delete")
     end
+
+    it "has an Add to my Recipe button that appears if a user does not have owner permissions and will add the recipe to their collection" do
+      visit '/logout'
+
+      User.create(:username => "testking", :email => "long_live_the_king@test.com", :password => "testingtesting")
+      visit '/login'
+      fill_in(:username, :with => "testking")
+      fill_in(:password, :with => "testingtesting")
+      click_button "Log In"
+
+      visit "/recipes/#{@recipe.id}"
+
+      click_button "Add to my Recipes"
+
+      visit "/users/profile/testking"
+      expect(page).to have_link("PB&J")
+    end
+
   end
 
   context "edit recipe page" do
