@@ -4,12 +4,6 @@ button {
   background: #ddd;
 }
 
-/* img styling */
-img {
-  height: 500px;
-  width: 500px;
-}
-
 /* input styling */
 input.text-field-input {
   display: block;
