@@ -64,6 +64,15 @@ class MealPlanController < AppController
     redirect "/meal-plans/#{mp.id}"
   end
 
+  delete '/meal-plans/:id/delete' do
+    @meal_plan = MealPlan.find(params[:id])
+    access_check(@meal_plan.user_id)
+
+    @meal_plan.destroy
+
+    redirect "/users/profile/#{@meal_plan.user.slug}"
+  end
+
   helpers do
 
     def set_meal_field(to_url, meal)

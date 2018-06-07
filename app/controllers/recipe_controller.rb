@@ -37,8 +37,8 @@ class RecipeController < AppController
     end
 
     params[:user_id] = current_user.id
-    Recipe.create(params)
-    redirect '/recipes'
+    recipe = Recipe.create(params)
+    redirect "/recipes/#{recipe.id}"
   end
 
   patch '/recipes/:id' do
