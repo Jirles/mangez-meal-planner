@@ -13,10 +13,12 @@
         <label for="<%= recipe.id %>"><%=recipe.name%></label>
         <input type="radio" name="breakfast" id="<%= recipe.id %>" value="<%= recipe.id %>" <%= "checked" if recipe.id == @meal_plan.breakfast %> >
       <% end %>
+    <br><br>
     <label class="create-new" for="create-new-breakfast"><strong>Or create a new one<strong></label>
     <input type='radio' class="create-new" name='breakfast' value="<%= nil %> "id='create-new-breakfast'>
 
     <!-- Begin new breakfast recipe form fields -->
+    <br>
     <label for="br_new_name">Name</label>
     <abbr title="required">*</abbr>
     <input type="text" class="text-field-input" id="br_new_name" name="breakfast_new[name]" />
@@ -38,10 +40,12 @@
         <label for="<%= recipe.id %>"><%=recipe.name%></label>
         <input type="radio" name="lunch" id="<%= recipe.id %>" value="<%= recipe.id %>" <%="checked" if recipe.id == @meal_plan.lunch%> >
       <% end %>
+    <br><br>
     <label for="create-new-lunch" class="create-new" ><strong>Or create a new one</strong></label>
     <input type="radio" class="create-new" id="create-new-lunch" name="lunch" value="<%= nil %>" >
 
     <!-- Begin new lunch recipe form fields -->
+    <br>
     <label for="ln_new_name">Name</label>
     <abbr title="required">*</abbr>
     <input type="text" class="text-field-input" id="ln_new_name" name="lunch_new[name]" />
@@ -63,10 +67,12 @@
         <label for="<%= recipe.id %>"><%=recipe.name%></label>
         <input type="radio" name="dinner" id="<%= recipe.id %>" value="<%= recipe.id %>" <%= "checked" if recipe.id == @meal_plan.dinner%>>
       <% end %>
+      <br><br>
     <label class="create-new" for="create-new-dinner"><strong>Or create a new one</strong></label>
     <input type="radio" class="create-new" id="create-new-dinner" value= "<%= nil %>" name="dinner" >
 
     <!-- Begin new dinner recipe form fields -->
+    <br>
     <label for="dn_new_name">Name</label>
     <abbr title="required">*</abbr>
     <input type="text" class="text-field-input" id="dn_new_name" name="dinner_new[name]" />
