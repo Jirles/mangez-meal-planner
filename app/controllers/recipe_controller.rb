@@ -1,4 +1,3 @@
-require 'pry'
 
 class RecipeController < AppController
 
@@ -18,13 +17,13 @@ class RecipeController < AppController
   get '/recipes/:id' do
     redirect_if_not_logged_in
     @user = current_user
-    @recipe = Recipe.find(params[:id])
+    @recipe = set_recipe
 
     erb :'recipes/show_recipe'
   end
 
   get '/recipes/:id/edit' do
-    @recipe = Recipe.find(params[:id])
+    @recipe = set_recipe
     access_check(@recipe.user_id)
 
     erb :'recipes/edit_recipe'
@@ -42,7 +41,7 @@ class RecipeController < AppController
   end
 
   patch '/recipes/:id' do
-    recipe = Recipe.find(params[:id])
+    recipe = set_recipe
     if !valid_recipe_submission?(params)
       flash[:message] = "Please fill in all fields."
       redirect "/recipes/#{recipe.id}/edit"
@@ -57,12 +56,18 @@ class RecipeController < AppController
   end
 
   delete '/recipes/:id/delete' do
-    @recipe = Recipe.find(params[:id])
+    @recipe = set_recipe
     access_check(@recipe.user_id)
 
     @recipe.destroy
 
     redirect '/recipes'
+  end
+
+  helpers do
+    def set_recipe
+      Recipe.find(params[:id])
+    end
   end
 
 end

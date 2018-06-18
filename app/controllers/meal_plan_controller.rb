@@ -1,4 +1,3 @@
-require 'pry'
 
 class MealPlanController < AppController
 
@@ -10,8 +9,9 @@ class MealPlanController < AppController
   end
 
   get '/meal-plans/:id' do
-    @meal_plan = MealPlan.find(params[:id])
+    @meal_plan = set_mealplan
     access_check(@meal_plan.user_id)
+    
     @breakfast = find_recipe(@meal_plan.breakfast)
     @lunch = find_recipe(@meal_plan.lunch)
     @dinner = find_recipe(@meal_plan.dinner)
@@ -20,7 +20,7 @@ class MealPlanController < AppController
   end
 
   get '/meal-plans/:id/edit' do
-    @meal_plan = MealPlan.find(params[:id])
+    @meal_plan = set_mealplan
     access_check(@meal_plan.user_id)
     @user = current_user
 
@@ -28,7 +28,7 @@ class MealPlanController < AppController
   end
 
   get '/meal-plans/:id/shopping-list' do
-    @meal_plan = MealPlan.find(params[:id])
+    @meal_plan = set_mealplan
     access_check(@meal_plan.user_id)
 
     @breakfast = find_recipe(@meal_plan.breakfast)
@@ -52,7 +52,7 @@ class MealPlanController < AppController
   end
 
   patch '/meal-plans/:id' do
-    mp = MealPlan.find(params[:id])
+    mp = set_mealplan
     #breakfast
     mp.breakfast = set_meal_field(to_url = "/meal-plans/#{mp.id}/edit", meal = "breakfast")
     #lunch
@@ -65,7 +65,7 @@ class MealPlanController < AppController
   end
 
   delete '/meal-plans/:id/delete' do
-    @meal_plan = MealPlan.find(params[:id])
+    @meal_plan = set_mealplan
     access_check(@meal_plan.user_id)
 
     @meal_plan.destroy
@@ -75,17 +75,22 @@ class MealPlanController < AppController
 
   helpers do
 
+    def set_mealplan
+      MealPlan.find(params[:id])
+    end
+
     def set_meal_field(to_url, meal)
       nested_hash_key = meal + "_new"
       if params[meal] && !params[meal].empty?
         return params[meal]
-      end
-      if !valid_recipe_submission?(params[nested_hash_key])
-        flash[:message] = "Please fill in all fields."
-        redirect to_url
       else
-        params[nested_hash_key][:user_id] = current_user.id
-        Recipe.create(params[nested_hash_key]).id
+        if !valid_recipe_submission?(params[nested_hash_key])
+          flash[:message] = "Please fill in all fields."
+          redirect to_url
+        else
+          params[nested_hash_key][:user_id] = current_user.id
+          Recipe.create(params[nested_hash_key]).id
+        end
       end
     end
 
