@@ -41,6 +41,9 @@ class RecipeController < AppController
   end
 
   patch '/recipes/:id' do
+    @user = set_recipe.user
+    access_check(@user.id)
+
     recipe = set_recipe
     if !valid_recipe_submission?(params)
       flash[:message] = "Please fill in all fields."
@@ -66,7 +69,7 @@ class RecipeController < AppController
 
   helpers do
     def set_recipe
-      Recipe.find(params[:id])
+      @recipe = Recipe.find(params[:id])
     end
   end
 

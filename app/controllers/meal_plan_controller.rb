@@ -11,7 +11,7 @@ class MealPlanController < AppController
   get '/meal-plans/:id' do
     @meal_plan = set_mealplan
     access_check(@meal_plan.user_id)
-    
+
     @breakfast = find_recipe(@meal_plan.breakfast)
     @lunch = find_recipe(@meal_plan.lunch)
     @dinner = find_recipe(@meal_plan.dinner)
@@ -52,6 +52,8 @@ class MealPlanController < AppController
   end
 
   patch '/meal-plans/:id' do
+    @user = set_mealplan.user
+    access_check(@user.id)
     mp = set_mealplan
     #breakfast
     mp.breakfast = set_meal_field(to_url = "/meal-plans/#{mp.id}/edit", meal = "breakfast")
